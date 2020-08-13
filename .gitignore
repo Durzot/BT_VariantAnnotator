@@ -1,0 +1,29 @@
+# Project specific
+/data/
+/results/
+
+# Logs 
+log/
+*.log
+*.coverage
+
+# Mac anc Vim specific
+.DS_Store
+.DS_Store?
+
+# Python
+__pycache__/
+
+# Open cached files 
+*.m~
+*.*swp
+*.*swo
+
+# Compiled sources
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+.Rproj.user
