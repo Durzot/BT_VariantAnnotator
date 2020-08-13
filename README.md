@@ -12,7 +12,6 @@ The tool is divided in 3 steps
 VEP annotates variants with information from multiple external databases and can be configure for to answer a lot of specific needs. For more details,
 see [VEP's options page](https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html). VEP does not however extract information like number of reads or somatic status from the VCF file. vcf2maf is supposed to perform these tasks but failed to do on quite a lot of example VCF and does not always extract all the relevant information. For this reason, manual parsing was implemented in Python and was tested on TCGA VCF files from the legacy archive portal (see examples) and other VCFs. See the table for exhaustive details.
 
-
 ### 1.2. vcf2maf
 
 vcf2maf also runs VEP internally but performs extra work to build some annotation fields including the following
@@ -31,6 +30,8 @@ vcf2maf also runs VEP internally but performs extra work to build some annotatio
 - *HGVS_c*
 - *HGVS_Short*
 - *all_effects*
+
+that are not available from VEP's output.
 
 ### 1.3. VEP
 
