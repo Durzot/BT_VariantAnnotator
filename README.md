@@ -7,10 +7,16 @@ The tool is divided in 3 steps
 
 ## 1. What is the tool doing ?
 
-### 1.1. Manual parsing
-
 VEP annotates variants with information from multiple external databases and can be configure for to answer a lot of specific needs. For more details,
 see [VEP's options page](https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html). VEP does not however extract information like number of reads or somatic status from the VCF file. vcf2maf is supposed to perform these tasks but failed to do on quite a lot of example VCF and does not always extract all the relevant information. For this reason, manual parsing was implemented in Python and was tested on TCGA VCF files from the legacy archive portal (see examples) and other VCFs. See the table for exhaustive details.
+
+### 1.1. Manual parsing
+
+Relies on tags specified by the user to extract relevant info like genotype (GT), somatic status (SS), quality and filter info (QUAL, INFO) and most importantly reads information (AD, DP, FA, DP4, TAR, TIR). The parser has been tested on TCGA VCF files as produced by
+- Mutect v.1 (TCGA GA SNV) and Strelka (TCGA GA Indel)
+- sets of callers VarScanSomatic-Strelka-Sniper-Samtools (TCGA HS SNP), GatkSomaticIndel-Pindel-Strelka-VarScanSomatic (TCGA HS Indel).
+- Mutect v.1.1.7 with no header
+- Strelka v.2.9.2
 
 ### 1.2. vcf2maf
 
