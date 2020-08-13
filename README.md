@@ -25,7 +25,7 @@ vcf2maf also runs VEP internally but performs extra work to build some annotatio
 - *Reference_Allele*
 - *Tumor_Seq_Allele1* (can be discarded)
 - *Tumor_Seq_Allele2* (can be discarded)
-- *dnSNP_RS*
+- *dbSNP_RS*
 - *HGVS_p*
 - *HGVS_c*
 - *HGVS_Short*
@@ -38,3 +38,40 @@ that are not available from VEP's output.
 Run the VEP annotator on the VCF file from a specific set of options. The options can be changed in the code if required.
 
 ## 2. How to run the tool ?
+
+### 2.1 Install VEP
+
+Clone VEP from the [official github](https://github.com/Ensembl/ensembl-vep). Installation details are provided there. As specified, run
+
+```
+git clone https://github.com/Ensembl/ensembl-vep
+cd ensembl-vep
+perl INSTALL.pl
+```
+
+The perl script INSTALL.pl may return errors as missing dependencies or other. For instance,the error `Bio::Root::Version is not installed` may be solved by running `sudo cpanm Bio::Root::Version`. You may have more than one such library to install. Refer to the github for the details.
+
+The installation from the perl script offers the choice to install cache files (most efficient use of vep) and FASTA files (to retrieve sequence data for HGVS notations) into `$HOME/.vep`. You may also install plugins for additional analyses. Download cache files for Homo Sapiens genome 99_GRCh37 (or newer). The total download size is about 12 GB of data so a stable and fast connection is required here. The FASTA file Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz requires 882 MB of storage. *DO NOT FORGET* to unzip this file (or VEP will fail).
+
+### 2.2 Install vcf2maf
+
+VEP is required by vcf2maf may you need also need the set of commands `samtools`, and `htslib` available at [http://www.htslib.org/download/](http://www.htslib.org/download/). Do the following
+
+```
+cd samtools-1.x
+./configure --prefix=/where/to/install
+make
+make install
+ln -s /where/to/install/bin/samtools /usr/local/bin
+
+cd htslib −1.x
+./configure −−prefix=/where/to/install
+make
+make install
+
+ln −s /where/to/install/bin/htslib /usr/local/bin 
+ln −s /where/to/install/bin/tabix /usr/local/bin
+ln −s /where/to/install/bin/bgzip /usr/local/bin
+```
+
+You may replace `/usr/local/bin` with whatever path where you usually save binaries. Finish the installation of vcf2maf following the instructions given in the [github](https://github.com/mskcc/vcf2maf).
