@@ -51,11 +51,11 @@ perl INSTALL.pl
 
 The perl script INSTALL.pl may return errors as missing dependencies or other. For instance,the error `Bio::Root::Version is not installed` may be solved by running `sudo cpanm Bio::Root::Version`. You may have more than one such library to install. Refer to the github for the details.
 
-The installation from the perl script offers the choice to install cache files (most efficient use of vep) and FASTA files (to retrieve sequence data for HGVS notations) into `$HOME/.vep`. You may also install plugins for additional analyses. Download cache files for Homo Sapiens genome 99_GRCh37 (or newer). The total download size is about 12 GB of data so a stable and fast connection is required here. The FASTA file Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz requires 882 MB of storage. *DO NOT FORGET* to unzip this file (or VEP will fail).
+The installation from the perl script offers the choice to install cache files (most efficient use of vep) and FASTA files (to retrieve sequence data for HGVS notations) into `$HOME/.vep`. You may also install plugins for additional analyses. Download cache files for Homo Sapiens genome 100_GRCh37 (or newer). The total download size is about 12 GB of data so a stable and fast connection is required here. The uncompressed FASTA file (**DO NOT FORGET** to uncompress this file or VEP will fail) Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz requires about 3.0 GB of storage.
 
 ### 2.2 Install vcf2maf
 
-VEP is required by vcf2maf may you need also need the set of commands `samtools`, and `htslib` available at [http://www.htslib.org/download/](http://www.htslib.org/download/). Do the following
+VEP is required by vcf2maf but you also need the commands from `samtools` and `htslib` available at [http://www.htslib.org/download/](http://www.htslib.org/download/). Do the following
 
 ```
 cd samtools-1.x
