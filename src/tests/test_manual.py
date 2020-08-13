@@ -20,7 +20,7 @@ def test_manual():
     #### # ########################################################################################################
 
     vcf_folder = "./examples/data/TCGA_GA/"
-    out_folder = "./examples/results/TCGA_GA/out_manual"
+    out_folder = "./examples/results/TCGA_GA/tmp/out_manual"
     os.makedirs(out_folder, exist_ok=True)
 
     #### Indel TCGA_GA
@@ -61,7 +61,7 @@ def test_manual():
     #### # ########################################################################################################
 
     vcf_folder = "./examples/data/TCGA_HS/"
-    out_folder = "./examples/results/TCGA_HS/out_manual"
+    out_folder = "./examples/results/TCGA_HS/tmp/out_manual"
     os.makedirs(out_folder, exist_ok=True)
 
     #### Indel TCGA_HS

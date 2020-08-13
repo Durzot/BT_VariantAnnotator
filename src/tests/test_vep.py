@@ -23,7 +23,7 @@ def test_vep():
     #### # ########################################################################################################
 
     vcf_folder = "./examples/data/TCGA_GA/"
-    out_folder = "./examples/results/TCGA_GA/out_vep"
+    out_folder = "./examples/results/TCGA_GA/tmp/out_vep"
     os.makedirs(out_folder, exist_ok=True)
 
     #### Indel TCGA_GA
@@ -54,7 +54,7 @@ def test_vep():
     #### # ########################################################################################################
 
     vcf_folder = "./examples/data/TCGA_HS/"
-    out_folder = "./examples/results/TCGA_HS/out_vep"
+    out_folder = "./examples/results/TCGA_HS/tmp/out_vep"
     os.makedirs(out_folder, exist_ok=True)
 
     #### Indel TCGA_HS

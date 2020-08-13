@@ -291,8 +291,7 @@ def process_assemble(df_vcf: DataFrame, df_vcf_info: DataFrame, df_vcf_reads: Da
 #### # MAIN FUNCTION
 #### #####################################################################################################
 
-def run_manual_annotator(vcf_path: str, out_path:str,  col_normal: str, col_tumor: str, infos_n_reads: list,
-                         infos_other: list):
+def run_manual_annotator(vcf_path: str, out_path:str,  col_normal: str, col_tumor: str, infos_n_reads: list, infos_other: list):
     """
     Manually parse VCF file and save at the path specified.
 

@@ -12,7 +12,7 @@ see [VEP's options page](https://www.ensembl.org/info/docs/tools/vep/script/vep_
 
 ### 1.1. Manual parsing
 
-Relies on tags specified by the user to extract relevant info like genotype (GT), somatic status (SS), quality and filter info (QUAL, INFO) and most importantly reads information (AD, DP, FA, DP4, TAR, TIR). The parser has been tested on TCGA VCF files as produced by
+Relies on tags specified by the user to extract relevant info like genotype (GT), somatic status (SS), quality and filter info (QUAL, INFO) and most importantly reads information (AD, DP, FA, DP4, TAR, TIR). The parser has been tested on VCF files as produced by
 - Mutect v.1 (TCGA GA SNV) and Strelka (TCGA GA Indel)
 - sets of callers VarScanSomatic-Strelka-Sniper-Samtools (TCGA HS SNP), GatkSomaticIndel-Pindel-Strelka-VarScanSomatic (TCGA HS Indel).
 - Mutect v.1.1.7 with no header

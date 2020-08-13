@@ -24,8 +24,8 @@ def test_vcf2maf():
     #### # ########################################################################################################
 
     vcf_folder = "./examples/data/TCGA_GA/"
-    tmp_folder = "./examples/results/TCGA_GA/tmp_vcf2maf"
-    out_folder = "./examples/results/TCGA_GA/out_vcf2maf"
+    tmp_folder = "./examples/results/TCGA_GA/tmp/tmp_vcf2maf"
+    out_folder = "./examples/results/TCGA_GA/tmp/out_vcf2maf"
     os.makedirs(out_folder, exist_ok=True)
 
     #### Indel TCGA_GA
@@ -68,8 +68,8 @@ def test_vcf2maf():
     #### # ########################################################################################################
 
     vcf_folder = "./examples/data/TCGA_HS/"
-    tmp_folder = "./examples/results/TCGA_HS/tmp_vcf2maf"
-    out_folder = "./examples/results/TCGA_HS/out_vcf2maf"
+    tmp_folder = "./examples/results/TCGA_HS/tmp/tmp_vcf2maf"
+    out_folder = "./examples/results/TCGA_HS/tmp/out_vcf2maf"
     os.makedirs(out_folder, exist_ok=True)
 
     #### Indel TCGA_HS

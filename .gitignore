@@ -1,6 +1,6 @@
 # Project specific
-/data/
-/results/
+/examples/
+/htmlcov/
 
 # Logs 
 log/
