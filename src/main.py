@@ -23,8 +23,9 @@ DataFrame = pd.core.frame.DataFrame
 #### # FUNCTION FOR ONE VCF
 #### # #######################################################################################################
 
-def run_annotator_one(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
-infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str, dt_folders: dict):
+def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
+infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str, dt_folders: dict,
+dt_identifiers: dict=None):
     """
     Run the manual, vcf2maf and vep annotations on one VCF file and assemble.
 
@@ -59,6 +60,8 @@ infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data:
             * vcf2maf_out_folder
             * vep_out_folder
             * maf_folder
+    dt_identifiers: dict, optional
+        dict with key, value pairs that will be added as single-value columns in the maf file
     """
     vcf_path = os.path.join(vcf_folder, vcf_file)
 
@@ -109,6 +112,10 @@ infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data:
         filepath_or_buffer = manual_out_path,
         sep                = "\t"
     )
+
+    if dt_identifiers is not None:
+        for k,v in dt_identifiers.items():
+            ddf_vcf["manual"].insert(0, k, v)
 
     #### vep alone
     skipsymbol = "##"
@@ -165,10 +172,6 @@ infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data:
         "Tumor_Seq_Allele1"           : "vcf2maf",
         "Tumor_Seq_Allele2"           : "vcf2maf",
         "dbSNP_RS"                    : "vcf2maf",
-        "Tumor_Sample"                : "manual",
-        "Tumor_Sample_Barcode"        : "manual",
-        "Tumor_Sample_Site"           : "manual",
-        "Matched_Norm_Sample_Barcode" : "manual",
         "Match_Norm_Seq_Allele1"      : "vcf2maf",
         "Match_Norm_Seq_Allele2"      : "vcf2maf",
         "Tumor_Sample_UUID"           : "manual",
@@ -228,6 +231,15 @@ infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data:
         else:
             maf_columns.append(ddf_vcf["manual"][column])
 
+    #### add identifier columns if any
+    if dt_identifiers is not None:
+        for column in dt_identifiers.keys():
+            if column not in ddf_vcf["manual"].columns:
+                print("WARNING: %s is not in %s" % (column, source), flush=True)
+            else:
+                maf_columns.append(ddf_vcf["manual"][column])
+
+
     #### # 3. SAVE
     #### ######################################################################################################
 
@@ -242,7 +254,7 @@ infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data:
     print("maf file saved at %s" % maf_out_path, flush=True)
 
 
-def run_annotator(i_split: int, n_split: int, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str, vcf_folder: str,
+def run_annotator_all(i_split: int, n_split: int, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str, vcf_folder: str,
 out_folder: str, vcf_list_path: str=None, vcf_meta_path: str=None):
     """
     Run the manual, vcf2maf and vep annotations and assemble.
@@ -289,16 +301,16 @@ out_folder: str, vcf_list_path: str=None, vcf_meta_path: str=None):
         os.makedirs(v, exist_ok=True)
 
     #### load meta data
-    df_meta = pd.read_csv(
-        filepath_or_buffer = dt_paths["vcf_meta"],
-        sep                = "\t"
-    )
+    if vcf_meta_path is not None:
+        df_meta = pd.read_csv(
+            filepath_or_buffer = vcf_meta_path,
+            sep                = "\t"
+        )
 
-    if os.path.exists(dt_paths["vcf_list"]):
-        with open(dt_paths["vcf_list"]) as file:
+    if vcf_list_path is not None:
+        with open(vcf_list_path) as file:
             vcf_files = file.read().splitlines()
     else:
-        #### what if compressed ?
         vcf_files = [x for x in os.listdir(vcf_folder) if x.endswith(".vcf")]
 
     #### get list of vcfs for the split
@@ -322,7 +334,7 @@ out_folder: str, vcf_list_path: str=None, vcf_meta_path: str=None):
         infos_n_reads = ["AD", "DP4", "DP", "TAR", "TIR"]
         infos_other   = ["SS", "GT"]
 
-        run_annotator_one(
+        run_annotator(
             vcf_folder    = vcf_folder,
             vcf_file      = vcf_file,
             col_normal    = col_normal,

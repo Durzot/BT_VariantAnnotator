@@ -1,0 +1,4 @@
+tumor_sample	normal_sample_barcode	tumor_sample_barcode	vcf_type	present_HiSeq	file_id_HiSeq	file_name_HiSeq	file_size_HiSeq
+TCGA-A1-A0SD	TCGA-A1-A0SD-10A-01D-A110-09	TCGA-A1-A0SD-01A-11D-A10Y-09	snv	X	d23e3a12-207c-4b47-9d36-0977c427ba84	genome.wustl.edu.TCGA-A1-A0SD.snv.0e81f9c986154ce89e59240c3f09534f.vcf.gz	19.1
+TCGA-A1-A0SD	TCGA-A1-A0SD-10A-01D-A110-09	TCGA-A1-A0SD-01A-11D-A10Y-09	exome				
+TCGA-A1-A0SD	TCGA-A1-A0SD-10A-01D-A110-09	TCGA-A1-A0SD-01A-11D-A10Y-09	indel	X	6637f6bc-91a8-4dd8-a315-55d95209afd4	genome.wustl.edu.TCGA-A1-A0SD.indel.0e81f9c986154ce89e59240c3f09534f.vcf.gz	0.94

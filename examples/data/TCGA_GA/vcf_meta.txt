@@ -1,0 +1,3 @@
+tumor_sample	normal_sample_barcode	tumor_sample_barcode	vcf_type	present_GA	file_id_GA	file_name_GA	file_size_GA
+TCGA-A1-A0SB	TCGA-A1-A0SB-10B-01D-A142-09	TCGA-A1-A0SB-01A-11D-A142-09	snv	X	36a044b2-f8da-420f-b8a3-e61046755266	TCGA-A1-A0SB_db9d40fb-bfce-4c3b-a6c2-41c5c88982f1_a3254f8e-3bbd-42fc-abea-a5f25b7648b3.oxoG.snp.capture.tcga.vcf	6.53
+TCGA-A1-A0SB	TCGA-A1-A0SB-10B-01D-A142-09	TCGA-A1-A0SB-01A-11D-A142-09	indel	X	5164f318-f4d0-410e-bc44-083e58735c04	TCGA-A1-A0SB_db9d40fb-bfce-4c3b-a6c2-41c5c88982f1_a3254f8e-3bbd-42fc-abea-a5f25b7648b3.indel.capture.tcga.vcf	0.0129

@@ -12,7 +12,7 @@ Test functions from vep module.
 """
 
 import os
-from ..main import run_annotator_one
+from ..main import run_annotator
 
 def test_main():
     vcf2maf    = "~/Documents/biotools/informatics/VCF/mskcc-vcf2maf-5453f80/vcf2maf.pl"
@@ -48,20 +48,28 @@ def test_main():
     infos_n_reads = ["AD", "DP4", "DP", "TAR", "TIR"]
     infos_other   = ["SS", "GT"]
 
-    run_annotator_one(
-        vcf_folder    = vcf_folder,
-        vcf_file      = vcf_file,
-        col_normal    = col_normal,
-        col_tumor     = col_tumor,
-        normal_id     = normal_id,
-        tumor_id      = tumor_id,
-        infos_n_reads = infos_n_reads,
-        infos_other   = infos_other,
-        vcf2maf       = vcf2maf,
-        vep_folder    = vep_folder,
-        vep_data      = vep_data,
-        fasta         = fasta,
-        dt_folders    = dt_folders
+    dt_identifiers = {
+        "Tumor_Sample"                : "TCGA-A1-A0SD",
+        "Tumor_Sample_Barcode"        : "TCGA-A1-A0SD-01A-11D-A10Y-09",
+        "Matched_Norm_Sample_Barcode" : "TCGA-A1-A0SD-10A-01D-A110-09",
+        "Tumor_Sample_Site"           : "01",
+    }
+
+    run_annotator(
+        vcf_folder     = vcf_folder,
+        vcf_file       = vcf_file,
+        col_normal     = col_normal,
+        col_tumor      = col_tumor,
+        normal_id      = normal_id,
+        tumor_id       = tumor_id,
+        infos_n_reads  = infos_n_reads,
+        infos_other    = infos_other,
+        vcf2maf        = vcf2maf,
+        vep_folder     = vep_folder,
+        vep_data       = vep_data,
+        fasta          = fasta,
+        dt_folders     = dt_folders,
+        dt_identifiers = dt_identifiers
     )
 
     #### SNP TCGA_GA
