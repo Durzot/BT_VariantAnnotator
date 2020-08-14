@@ -12,7 +12,7 @@ Example of how to annotate a list of VCF from one project/study.
 
 Example
 -----------
-python main/data/vcf/run/vcf2maf_tcga_GA.py \
+python examples/run_example_tcga_GA.py \
     --i_split 1 \
     --n_split 1 \
     --vcf2maf ~/Documents/biotools/informatics/VCF/mskcc-vcf2maf-5453f80/vcf2maf.pl \
@@ -106,7 +106,7 @@ if __name__ == "__main__":
         mask_vcf_file  = df_meta["file_name_GA"] == vcf_file
         index_vcf_file = mask_vcf_file[mask_vcf_file].index[0]
 
-        vcf_identifiers = {
+        dt_identifiers = {
             "Tumor_Sample"                : df_meta.loc[index_vcf_file, "tumor_sample"],
             "Tumor_Sample_Barcode"        : df_meta.loc[index_vcf_file, "tumor_sample_barcode"],
             "Matched_Norm_Sample_Barcode" : df_meta.loc[index_vcf_file, "normal_sample_barcode"],
@@ -115,27 +115,28 @@ if __name__ == "__main__":
 
         #### get parameter values
         col_normal    = "NORMAL"
-        if vcf_identifiers["Tumor_Sample_Site"] == "01":
+        if dt_identifiers["Tumor_Sample_Site"] == "01":
             col_tumor = "PRIMARY"
         else:
             col_tumor = "METASTATIC"
-        normal_id     = vcf_identifiers["Matched_Norm_Sample_Barcode"],
-        tumor_id      = vcf_identifiers["Tumor_Sample_Barcode"],
+        normal_id     = dt_identifiers["Matched_Norm_Sample_Barcode"],
+        tumor_id      = dt_identifiers["Tumor_Sample_Barcode"],
         infos_n_reads = ["AD", "DP", "FA"]
         infos_other   = ["SS", "GT"]
 
         run_annotator(
-            vcf_folder    = vcf_folder,
-            vcf_file      = vcf_file,
-            col_normal    = col_normal,
-            col_tumor     = col_tumor,
-            normal_id     = normal_id,
-            tumor_id      = tumor_id,
-            infos_n_reads = infos_n_reads,
-            infos_other   = infos_other,
-            vcf2maf       = args.vcf2maf,
-            vep_folder    = args.vep_folder,
-            vep_data      = args.vep_data,
-            fasta         = args.fasta,
-            dt_folders    = dt_folders
+            vcf_folder     = vcf_folder,
+            vcf_file       = vcf_file,
+            col_normal     = col_normal,
+            col_tumor      = col_tumor,
+            normal_id      = normal_id,
+            tumor_id       = tumor_id,
+            infos_n_reads  = infos_n_reads,
+            infos_other    = infos_other,
+            vcf2maf        = args.vcf2maf,
+            vep_folder     = args.vep_folder,
+            vep_data       = args.vep_data,
+            fasta          = args.fasta,
+            dt_folders     = dt_folders,
+            dt_identifiers = dt_identifiers
         )
