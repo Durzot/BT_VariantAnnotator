@@ -81,3 +81,11 @@ ln −s /where/to/install/bin/bgzip /usr/local/bin
 ```
 
 You may replace `/usr/local/bin` with whatever path where you usually save binaries. Finish the installation of vcf2maf following the instructions given in the [github](https://github.com/mskcc/vcf2maf).
+
+#### 2.3
+
+The main function for annotating a vcf is `run_annotator` in `main` module. Have a look at `run_example_tcga_GA.py` to have an example of how to run the tool and at the `run_annotator` documentation for more details about the options.
+
+## 3. References
+
+McLaren, W., Gil, L., Hunt, S.E. et al. The Ensembl Variant Effect Predictor. Genome Biol 17, 122 (2016). [https://doi.org/10.1186/s13059-016-0974-4](https://doi.org/10.1186/s13059-016-0974-4).
