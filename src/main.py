@@ -27,7 +27,7 @@ DataFrame = pd.core.frame.DataFrame
 def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
                   infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str,
                   dt_folders: dict, dt_identifiers: dict=None, vep_custom: Union[str,list]=None,
-                  vep_overwrite:bool=False):
+                  vep_overwrite: bool=False, vcf2maf_overwrite: bool=False):
     """
     Run the manual, vcf2maf and vep annotations on one VCF file and assemble.
 
@@ -47,6 +47,8 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         list of sigles that need extraction
     vcf2maf: str
         path to the vcf2maf perl script
+    vcf2maf_overwrite: bool, optional.
+        set to True to overwrite any existing previous run of vcf2maf.
     vep_folder: str
         path to the folder where the vep command is
     vep_data: str
@@ -98,7 +100,8 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         tmp_folder = dt_folders["vcf2maf_tmp_folder"],
         tumor_id   = tumor_id,
         normal_id  = normal_id,
-        fasta      = fasta
+        fasta      = fasta,
+        overwrite  = vcf2maf_overwrite
     )
 
     run_vep_annotator(
