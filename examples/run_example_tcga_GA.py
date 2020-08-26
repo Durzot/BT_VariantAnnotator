@@ -136,6 +136,8 @@ if __name__ == "__main__":
             vcf2maf        = args.vcf2maf,
             vep_folder     = args.vep_folder,
             vep_data       = args.vep_data,
+            vep_custom     = "~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN",
+            vep_overwrite  = True,
             fasta          = args.fasta,
             dt_folders     = dt_folders,
             dt_identifiers = dt_identifiers

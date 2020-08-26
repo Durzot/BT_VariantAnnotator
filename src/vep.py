@@ -12,8 +12,9 @@ Python wrapper around VEP command.
 """
 
 import os
+from   typing import Union
 
-def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: str, fasta: str, overwrite: bool=False):
+def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False):
     """
     Run variant ensembl predictor alone with custom options. See options details at
     https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html#opt_af
@@ -30,6 +31,9 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
         path where output should be saved
     fasta: str
         relative path to fasta file from vep_folder
+    vep_custom: str or list
+        additional options to add to the vep cmd. For instance
+        '~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN'
     overwrite: bool
         if the output file already exists (from previous run), should it be overwritten?
     """
@@ -42,7 +46,7 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
         os.remove(out_path)
 
     if need_run:
-        os.system('%s \
+        cmd = """%s \
             --dir %s \
             --af \
             --af_gnomad \
@@ -77,7 +81,17 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
             --input_file %s \
             --output_file %s \
             --fasta %s \
-            --offline ' % (vep, vep_data, vcf_path, out_path, fasta)
-        )
+            --offline """ % (vep, vep_data, vcf_path, out_path, fasta)
+
+        if vep_custom is not None:
+            if type(vep_custom) == list:
+                for v_custom in vep_custom:
+                    cmd += "--custom %s " % v_custom
+            elif type(vep_custom) == str:
+                cmd += "--custom %s " % vep_custom
+            else:
+                raise ValueError("vep_custom should be of type list or str")
+
+        os.system(cmd)
     else:
         print("output file %s already exists and overwrite is set to False" % out_path)

@@ -59,6 +59,21 @@ The perl script INSTALL.pl may return errors as missing dependencies or other. F
 
 The installation from the perl script offers the choice to install cache files (most efficient use of vep) and FASTA files (to retrieve sequence data for HGVS notations) into `$HOME/.vep`. You may also install plugins for additional analyses. Download cache files for Homo Sapiens genome 100_GRCh37 (or newer). The total download size is about 12 GB of data so a stable and fast connection is required here. The uncompressed FASTA file (**DO NOT FORGET** to uncompress this file or VEP will fail) Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz requires about 3.0 GB of storage.
 
+As detailed in this [page](https://m.ensembl.org/info/docs/tools/vep/script/vep_custom.html), sometimes the Ensembl latest release does not use the latests release of other databases. If you want the latest release of say, ClinVar, you should download all relevant files and specify the path to these files along with field names while calling the vep command. For instance, you can get the latest ClinVar VCF files from their FTP website with
+
+```
+# Compressed VCF file
+curl -O ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/clinvar.vcf.gz
+# Index file
+curl -O ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/clinvar.vcf.gz.tbi
+````
+
+and then add the following to the vep command
+
+```
+./vep [...] --custom /path/to/custom_files/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN
+```
+
 ### 2.2 Install vcf2maf
 
 VEP is required by vcf2maf but you also need the commands from `samtools` and `htslib` available at [http://www.htslib.org/download/](http://www.htslib.org/download/). Do the following

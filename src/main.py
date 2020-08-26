@@ -13,6 +13,7 @@ Main functions for running each step and the assembling step.
 import os
 import numpy  as np
 import pandas as pd
+from   typing import Union
 
 from   .manual  import run_manual_annotator
 from   .vcf2maf import run_vcf2maf_annotator
@@ -24,8 +25,9 @@ DataFrame = pd.core.frame.DataFrame
 #### # #######################################################################################################
 
 def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
-infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str, dt_folders: dict,
-dt_identifiers: dict=None):
+                  infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str,
+                  dt_folders: dict, dt_identifiers: dict=None, vep_custom: Union[str,list]=None,
+                  vep_overwrite:bool=False):
     """
     Run the manual, vcf2maf and vep annotations on one VCF file and assemble.
 
@@ -49,6 +51,11 @@ dt_identifiers: dict=None):
         path to the folder where the vep command is
     vep_data: str
         path to the .vep data where the reference genome is located
+    vep_custom: str or list, optional.
+        additional options to add to the vep cmd. For instance
+        '--custom ~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN'
+    vep_overwrite: bool, optional.
+        set to True to overwrite any existing previous run of VEP.
     fasta: str
         relative path to fasta file from vep_folder
     vcf_folder: str
@@ -99,7 +106,9 @@ dt_identifiers: dict=None):
         vep_data   = vep_data,
         vcf_path   = vcf_path,
         out_path   = vep_out_path,
-        fasta      = fasta
+        fasta      = fasta,
+        vep_custom = vep_custom,
+        overwrite  = vep_overwrite,
     )
 
     #### # 2. ASSEMBLE ANNOTATIONS
@@ -179,11 +188,13 @@ dt_identifiers: dict=None):
         "HGVSc"                       : "vcf2maf",
         "HGVSp"                       : "vcf2maf",
         "HGVSp_Short"                 : "vcf2maf",
+        "Transcript_ID"               : "vcf2maf",
         "all_effects"                 : "vcf2maf",
         "Location"                    : "alone",
         "Gene"                        : "alone",
         "Feature"                     : "alone",
         "Feature_type"                : "alone",
+        "CANONICAL"                   : "alone",
         "cDNA_position"               : "alone",
         "CDS_position"                : "alone",
         "Protein_position"            : "alone",
