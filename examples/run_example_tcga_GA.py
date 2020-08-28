@@ -15,10 +15,11 @@ Example
 python examples/run_example_tcga_GA.py \
     --i_split 1 \
     --n_split 1 \
-    --vcf2maf ~/Documents/biotools/informatics/VCF/mskcc-vcf2maf-5453f80/vcf2maf.pl \
+    --vcf2maf ~/Documents/biotools/informatics/VCF/vcf2maf/vcf2maf.pl \
     --vep_folder ~/Documents/biotools/informatics/VCF/ensembl-vep \
     --vep_data ~/.vep \
-    --fasta ~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa
+    --vep_n_fork 4 \
+    --fasta ~/.vep/homo_sapiens/101_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa
 """
 import argparse
 import os
@@ -39,6 +40,7 @@ parser.add_argument('--n_split'         , type=int , default=1  , help='total nu
 parser.add_argument('--vcf2maf'         , type=str , default="" , help='path to the vcf2maf perl script')
 parser.add_argument('--vep_folder'      , type=str , default="" , help='path to the folder of the vep command')
 parser.add_argument('--vep_data'        , type=str , default="" , help='path to the .vep data folder')
+parser.add_argument('--vep_n_fork'      , type=int , default=4  , help='number of forks to be used by VEP')
 parser.add_argument('--fasta'           , type=str , default="" , help='path to reference genome FASTA file')
 args = parser.parse_args()
 
@@ -119,26 +121,28 @@ if __name__ == "__main__":
             col_tumor = "PRIMARY"
         else:
             col_tumor = "METASTATIC"
-        normal_id     = dt_identifiers["Matched_Norm_Sample_Barcode"],
-        tumor_id      = dt_identifiers["Tumor_Sample_Barcode"],
+        normal_id     = dt_identifiers["Matched_Norm_Sample_Barcode"]
+        tumor_id      = dt_identifiers["Tumor_Sample_Barcode"]
         infos_n_reads = ["AD", "DP", "FA"]
         infos_other   = ["SS", "GT"]
 
         run_annotator(
-            vcf_folder     = vcf_folder,
-            vcf_file       = vcf_file,
-            col_normal     = col_normal,
-            col_tumor      = col_tumor,
-            normal_id      = normal_id,
-            tumor_id       = tumor_id,
-            infos_n_reads  = infos_n_reads,
-            infos_other    = infos_other,
-            vcf2maf        = args.vcf2maf,
-            vep_folder     = args.vep_folder,
-            vep_data       = args.vep_data,
-            vep_custom     = "~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN",
-            vep_overwrite  = True,
-            fasta          = args.fasta,
-            dt_folders     = dt_folders,
-            dt_identifiers = dt_identifiers
+            vcf_folder        = vcf_folder,
+            vcf_file          = vcf_file,
+            col_normal        = col_normal,
+            col_tumor         = col_tumor,
+            normal_id         = normal_id,
+            tumor_id          = tumor_id,
+            infos_n_reads     = infos_n_reads,
+            infos_other       = infos_other,
+            vcf2maf           = args.vcf2maf,
+            vep_folder        = args.vep_folder,
+            vep_data          = args.vep_data,
+            # vep_custom      = "~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN",
+            vep_n_fork        = args.vep_n_fork,
+            vep_overwrite     = True,
+            vcf2maf_overwrite = True,
+            fasta             = args.fasta,
+            dt_folders        = dt_folders,
+            dt_identifiers    = dt_identifiers
         )

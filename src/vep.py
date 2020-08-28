@@ -14,7 +14,7 @@ Python wrapper around VEP command.
 import os
 from   typing import Union
 
-def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False):
+def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False, vep_n_fork: int=4):
     """
     Run variant ensembl predictor alone with custom options. See options details at
     https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html#opt_af
@@ -34,18 +34,24 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
     vep_custom: str or list
         additional options to add to the vep cmd. For instance
         '~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN'
-    overwrite: bool
+    overwrite: bool, optional.
         if the output file already exists (from previous run), should it be overwritten?
+    vep_n_fork: int, optional.
+        number of forks to be used when running VEP.
     """
     vep = os.path.join(vep_folder, "vep")
     need_run = True
 
     if os.path.exists(out_path) and not overwrite:
         need_run = False
-    elif os.path.exists(out_path):
-        os.remove(out_path)
 
     if need_run:
+        print("STATUS: RUNNING VEP")
+
+        if os.path.exists(out_path):
+            os.remove(out_path)
+            print("removed existing file: %s" % out_path)
+
         cmd = """%s \
             --dir %s \
             --af \
@@ -64,7 +70,7 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
             --check_existing \
             --distance 5000 \
             --hgvs \
-            --fork 4 \
+            --fork %s \
             --numbers \
             --mane \
             --pick \
@@ -81,7 +87,8 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
             --input_file %s \
             --output_file %s \
             --fasta %s \
-            --offline """ % (vep, vep_data, vcf_path, out_path, fasta)
+            --cache \
+            --offline """ % (vep, vep_data, vep_n_fork, vcf_path, out_path, fasta)
 
         if vep_custom is not None:
             if type(vep_custom) == list:

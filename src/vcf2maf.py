@@ -42,13 +42,24 @@ tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
         if the output file already exists (from previous run), should it be overwritten?
     """
     need_run = True
+    vcf_file = out_path.split("/")[-1]
+    tmp_file = vcf_file.replace(".txt", ".vep.vcf")
+    tmp_path = os.path.join(tmp_folder, tmp_file)
 
     if os.path.exists(out_path) and not overwrite:
         need_run = False
-    elif os.path.exists(out_path):
-        os.remove(out_path)
 
     if need_run:
+        print("STATUS: RUNNING VCF2MAF")
+
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+            print("removed existing file: %s" % tmp_path)
+
+        if os.path.exists(out_path):
+            os.remove(out_path)
+            print("removed existing file: %s" % out_path)
+
         os.system('perl %s \
             --input-vcf %s \
             --output-maf %s \

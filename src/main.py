@@ -27,7 +27,7 @@ DataFrame = pd.core.frame.DataFrame
 def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
                   infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str,
                   dt_folders: dict, dt_identifiers: dict=None, vep_custom: Union[str,list]=None,
-                  vep_overwrite: bool=False, vcf2maf_overwrite: bool=False):
+                  vep_overwrite: bool=False, vep_n_fork: int=4, vcf2maf_overwrite: bool=False):
     """
     Run the manual, vcf2maf and vep annotations on one VCF file and assemble.
 
@@ -58,6 +58,8 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         '--custom ~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN'
     vep_overwrite: bool, optional.
         set to True to overwrite any existing previous run of VEP.
+    vep_n_fork: int, optional.
+        number of forks to be used when running VEP.
     fasta: str
         relative path to fasta file from vep_folder
     vcf_folder: str
@@ -112,6 +114,7 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         fasta      = fasta,
         vep_custom = vep_custom,
         overwrite  = vep_overwrite,
+        vep_n_fork = vep_n_fork
     )
 
     #### # 2. ASSEMBLE ANNOTATIONS
