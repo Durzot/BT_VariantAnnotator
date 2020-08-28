@@ -229,7 +229,11 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         #### vcf2maf
         ddf_maf["vcf2maf"].columns = ["%s_VCF2MAF" % x for x in ddf_maf["vcf2maf"].columns]
         for column in ddf_maf["vcf2maf"].columns:
-            maf_columns.append(ddf_maf["vcf2maf"][column])
+            if column in dt_identifiers.keys():
+                #### prioritize identifiers from input
+                pass
+            else:
+                maf_columns.append(ddf_maf["vcf2maf"][column])
 
         #### vep
         ddf_maf["alone"].columns = ["%s_VEP" % x for x in ddf_maf["alone"].columns]
@@ -239,7 +243,11 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
     elif vcf2maf_config.run:
         #### vcf2maf
         for column in ddf_maf["vcf2maf"].columns:
-            maf_columns.append(ddf_maf["vcf2maf"][column])
+            if column in dt_identifiers.keys():
+                #### prioritize identifiers from input
+                pass
+            else:
+                maf_columns.append(ddf_maf["vcf2maf"][column])
 
     elif vep_config.custom_run:
         #### vep

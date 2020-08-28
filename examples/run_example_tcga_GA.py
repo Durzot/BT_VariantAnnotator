@@ -15,7 +15,7 @@ Example
 python examples/run_example_tcga_GA.py \
     --i_split 1 \
     --n_split 1 \
-    --vcf2maf ~/Documents/biotools/informatics/VCF/vcf2maf/vcf2maf.pl \
+    --vcf2maf_path ~/Documents/biotools/informatics/VCF/vcf2maf/vcf2maf.pl \
     --vep_folder ~/Documents/biotools/informatics/VCF/ensembl-vep \
     --vep_data ~/.vep \
     --vep_n_fork 4 \
@@ -30,6 +30,8 @@ if "." not in sys.path:
     sys.path.append(".")
 
 from   src.main import run_annotator
+from   src.main import Vcf2mafConfig
+from   src.main import VepConfig
 
 #### # SCRIPT PARAMETERS 
 #### #####################################################################################################
@@ -37,7 +39,7 @@ from   src.main import run_annotator
 parser = argparse.ArgumentParser()
 parser.add_argument('--i_split'         , type=int , default=1  , help='the split processed')
 parser.add_argument('--n_split'         , type=int , default=1  , help='total number of splits')
-parser.add_argument('--vcf2maf'         , type=str , default="" , help='path to the vcf2maf perl script')
+parser.add_argument('--vcf2maf_path'    , type=str , default="" , help='path to the vcf2maf perl script')
 parser.add_argument('--vep_folder'      , type=str , default="" , help='path to the folder of the vep command')
 parser.add_argument('--vep_data'        , type=str , default="" , help='path to the .vep data folder')
 parser.add_argument('--vep_n_fork'      , type=int , default=4  , help='number of forks to be used by VEP')
@@ -94,7 +96,28 @@ if __name__ == "__main__":
     count = 0
     count_total = len(vcf_files)
 
-    #### # 3. PROCESS
+    #### # 3. CONFIG
+    #### # ##################################################################################################
+
+    #### configure vep (for inside vcf2maf and for custom if set to use custom vep commands)
+    vep_config = VepConfig(
+        folder           = args.vep_folder,
+        data             = args.vep_data,
+        n_fork           = args.vep_n_fork,
+        fasta            = args.fasta,
+        custom_run       = False,
+        # custom_opt       = "~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN",
+        custom_overwrite = False,
+    )
+
+    #### configure vcf2maf
+    vcf2maf_config = Vcf2mafConfig(
+        path      = args.vcf2maf_path,
+        run       = True,
+        overwrite = False
+    )
+
+    #### # 4. ANNOTATE
     #### # ##################################################################################################
 
     #### loop over the list
@@ -135,14 +158,8 @@ if __name__ == "__main__":
             tumor_id          = tumor_id,
             infos_n_reads     = infos_n_reads,
             infos_other       = infos_other,
-            vcf2maf           = args.vcf2maf,
-            vep_folder        = args.vep_folder,
-            vep_data          = args.vep_data,
-            # vep_custom      = "~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN",
-            vep_n_fork        = args.vep_n_fork,
-            vep_overwrite     = True,
-            vcf2maf_overwrite = True,
-            fasta             = args.fasta,
             dt_folders        = dt_folders,
-            dt_identifiers    = dt_identifiers
+            dt_identifiers    = dt_identifiers,
+            vep_config        = vep_config,
+            vcf2maf_config    = vcf2maf_config
         )
