@@ -229,7 +229,7 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         #### vcf2maf
         ddf_maf["vcf2maf"].columns = ["%s_VCF2MAF" % x for x in ddf_maf["vcf2maf"].columns]
         for column in ddf_maf["vcf2maf"].columns:
-            if column in dt_identifiers.keys():
+            if column in dt_identifiers.keys() or column in cols_manual:
                 #### prioritize identifiers from input
                 pass
             else:
@@ -243,7 +243,7 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
     elif vcf2maf_config.run:
         #### vcf2maf
         for column in ddf_maf["vcf2maf"].columns:
-            if column in dt_identifiers.keys():
+            if column in dt_identifiers.keys() or column in cols_manual:
                 #### prioritize identifiers from input
                 pass
             else:
