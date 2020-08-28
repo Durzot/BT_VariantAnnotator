@@ -24,12 +24,62 @@ DataFrame = pd.core.frame.DataFrame
 #### # FUNCTION FOR ONE VCF
 #### # #######################################################################################################
 
-def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
-                  infos_n_reads: list, infos_other: list, vcf2maf: str, vep_folder: str, vep_data: str, fasta: str,
-                  dt_folders: dict, dt_identifiers: dict=None, vep_custom: Union[str,list]=None,
-                  vep_overwrite: bool=False, vep_n_fork: int=4, vcf2maf_overwrite: bool=False):
+from dataclasses import dataclass, field
+
+@dataclass
+class VepConfig:
     """
-    Run the manual, vcf2maf and vep annotations on one VCF file and assemble.
+    Config for running VEP inside VCF2MAF and separately (custom options, optional).
+
+    Parameters
+    --------
+    folder: str
+        path to the folder where the vep command is
+    data: str
+        path to the .vep data where the reference genome is located
+    fasta: str
+        relative path to fasta file from folder
+    n_fork: int, optional.
+        number of forks to be used when running VEP. Use at least 2.
+    custom_run: bool, optional
+        set to True to run VEP separately from vcf2maf.
+    custom_opt: str or list, optional.
+        additional options to add to the vep cmd. For instance
+        '--custom ~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN'
+    custom_overwrite: bool, optional.
+        set to True to overwrite any existing previous custom run of VEP.
+    """
+    folder: str
+    data: str
+    fasta: str
+    n_fork: int=4
+    custom_run: bool=False
+    custom_opt: Union[str, list]=None
+    custom_overwrite: bool=False
+
+@dataclass
+class Vcf2mafConfig:
+    """
+    Run vcf2maf. For VEP-related options, see VepConfig class.
+
+    Parameters
+    --------
+    path: str
+        path to the vcf2maf perl script
+    run: bool, optional
+        set to False to not use vcf2maf.
+    overwrite: bool, optional.
+        set to True to overwrite any existing previous run of vcf2maf.
+    """
+    path: str
+    run: bool=True
+    overwrite: bool=False
+
+def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
+                  infos_n_reads: list, infos_other: list, dt_folders: dict, vcf2maf_config: Vcf2mafConfig,
+                  vep_config: VepConfig, dt_identifiers: dict=None) -> None:
+    """
+    Run the manual, vcf2maf and/or vep annotations on one VCF file and assemble.
 
     Parameters
     --------
@@ -45,25 +95,6 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         list of sigles that contain read info
     infos_other: list
         list of sigles that need extraction
-    vcf2maf: str
-        path to the vcf2maf perl script
-    vcf2maf_overwrite: bool, optional.
-        set to True to overwrite any existing previous run of vcf2maf.
-    vep_folder: str
-        path to the folder where the vep command is
-    vep_data: str
-        path to the .vep data where the reference genome is located
-    vep_custom: str or list, optional.
-        additional options to add to the vep cmd. For instance
-        '--custom ~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN'
-    vep_overwrite: bool, optional.
-        set to True to overwrite any existing previous run of VEP.
-    vep_n_fork: int, optional.
-        number of forks to be used when running VEP.
-    fasta: str
-        relative path to fasta file from vep_folder
-    vcf_folder: str
-        path to the folder where the vcf files are
     dt_folders: dict
         dict with the following keys:
             * manual_out_folder
@@ -71,19 +102,20 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
             * vcf2maf_out_folder
             * vep_out_folder
             * maf_folder
+    vcf2maf_config: object
+        See Vcf2mafConfig class.
+    vep_config: object
+        See VepConfig class.
     dt_identifiers: dict, optional
         dict with key, value pairs that will be added as single-value columns in the maf file
     """
     vcf_path = os.path.join(vcf_folder, vcf_file)
-
-    out_file         = vcf_file.replace(".vcf", ".txt")
-    manual_out_path  = os.path.join(dt_folders["manual_out_folder"], out_file)
-    vcf2maf_out_path = os.path.join(dt_folders["vcf2maf_out_folder"], out_file)
-    vep_out_path     = os.path.join(dt_folders["vep_out_folder"], out_file)
+    out_file = vcf_file.replace(".vcf", ".txt")
 
     #### # 1. RUN EACH ANNOTATOR
     #### # ###################################################################################################
 
+    manual_out_path  = os.path.join(dt_folders["manual_out_folder"], out_file)
     run_manual_annotator(
         vcf_path      = vcf_path,
         out_path      = manual_out_path,
@@ -93,169 +125,134 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         infos_other   = infos_other
     )
 
-    run_vcf2maf_annotator(
-        vcf2maf    = vcf2maf,
-        vep_folder = vep_folder,
-        vep_data   = vep_data,
-        vcf_path   = vcf_path,
-        out_path   = vcf2maf_out_path,
-        tmp_folder = dt_folders["vcf2maf_tmp_folder"],
-        tumor_id   = tumor_id,
-        normal_id  = normal_id,
-        fasta      = fasta,
-        overwrite  = vcf2maf_overwrite
-    )
+    if vcf2maf_config.run:
+        vcf2maf_out_path = os.path.join(dt_folders["vcf2maf_out_folder"], out_file)
+        run_vcf2maf_annotator(
+            vcf2maf_path = vcf2maf_config.path,
+            vep_folder   = vep_config.folder,
+            vep_data     = vep_config.data,
+            vep_n_fork   = vep_config.n_fork,
+            vcf_path     = vcf_path,
+            out_path     = vcf2maf_out_path,
+            tmp_folder   = dt_folders["vcf2maf_tmp_folder"],
+            tumor_id     = tumor_id,
+            normal_id    = normal_id,
+            fasta        = vep_config.fasta,
+            overwrite    = vcf2maf_config.overwrite
+        )
 
-    run_vep_annotator(
-        vep_folder = vep_folder,
-        vep_data   = vep_data,
-        vcf_path   = vcf_path,
-        out_path   = vep_out_path,
-        fasta      = fasta,
-        vep_custom = vep_custom,
-        overwrite  = vep_overwrite,
-        vep_n_fork = vep_n_fork
-    )
+    if vep_config.custom_run:
+        vep_out_path     = os.path.join(dt_folders["vep_out_folder"], out_file)
+        run_vep_annotator(
+            vep_folder = vep_config.folder,
+            vep_data   = vep_config.data,
+            vep_n_fork = vep_config.n_fork,
+            vcf_path   = vcf_path,
+            out_path   = vep_out_path,
+            fasta      = vep_config.fasta,
+            vep_custom = vep_config.custom_opt,
+            overwrite  = vep_config.custom_overwrite,
+        )
 
     #### # 2. ASSEMBLE ANNOTATIONS
     #### ######################################################################################################
 
-    ddf_vcf = {}
+    ddf_maf = {}
 
     #### vep manual
-    ddf_vcf["manual"] = pd.read_csv(
+    ddf_maf["manual"] = pd.read_csv(
         filepath_or_buffer = manual_out_path,
         sep                = "\t"
     )
-
     if dt_identifiers is not None:
         for k,v in dt_identifiers.items():
-            ddf_vcf["manual"].insert(0, k, v)
-
-    #### vep alone
-    skipsymbol = "##"
-    with open(vep_out_path) as file:
-        skiprows = sum(line.startswith(skipsymbol) for line in file.readlines())
-
-    df_alone = pd.read_csv(
-        filepath_or_buffer = vep_out_path,
-        sep                = "\t",
-        skiprows           = skiprows
-    )
-
-    df_alone_extra = df_alone.Extra.apply(lambda x: dict(item.split("=") for item in x.split(";")))
-    df_alone_extra = df_alone_extra.apply(pd.Series)
-    df_alone = pd.concat((df_alone, df_alone_extra), axis=1)
-
-    ddf_vcf["alone"] = df_alone
+            ddf_maf["manual"].insert(0, k, v)
 
     #### maf vcf2maf
-    skipsymbol = "#"
-    with open(vcf2maf_out_path) as file:
-        skiprows = sum(line.startswith(skipsymbol) for line in file.readlines())
+    if vcf2maf_config.run:
+        skipsymbol = "#"
+        with open(vcf2maf_out_path) as file:
+            skiprows = sum(line.startswith(skipsymbol) for line in file.readlines())
 
-    ddf_vcf["vcf2maf"] = pd.read_csv(
-        filepath_or_buffer = vcf2maf_out_path,
-        sep                = "\t",
-        skiprows           = skiprows
-    )
+        ddf_maf["vcf2maf"] = pd.read_csv(
+            filepath_or_buffer = vcf2maf_out_path,
+            sep                = "\t",
+            skiprows           = skiprows
+        )
 
-    #### checked that all scripts ran ok the vcf file
-    n_manual  = ddf_vcf["manual"].shape[0]
-    n_vcf2maf = ddf_vcf["vcf2maf"].shape[0]
-    n_alone   = ddf_vcf["alone"].shape[0]
+    #### vep custom
+    if vep_config.custom_run:
+        skipsymbol = "##"
+        with open(vep_out_path) as file:
+            skiprows = sum(line.startswith(skipsymbol) for line in file.readlines())
 
-    if n_manual != n_vcf2maf:
-        print("SHAPE error: manual %d vs vcf2maf %d " % (n_manual, n_vcf2maf), flush=True)
+        df_alone = pd.read_csv(
+            filepath_or_buffer = vep_out_path,
+            sep                = "\t",
+            skiprows           = skiprows
+        )
 
-    if n_manual != n_alone:
-        print("SHAPE error: manual %d vs alone %d " % (n_manual, n_alone), flush=True)
+        df_alone_extra = df_alone.Extra.apply(lambda x: dict(item.split("=") for item in x.split(";")))
+        df_alone_extra = df_alone_extra.apply(pd.Series)
+        df_alone = pd.concat((df_alone, df_alone_extra), axis=1)
+
+        ddf_maf["alone"] = df_alone
+
+    #### check that all scripts ran ok the vcf file
+    #### by check that all maf files have the same number of lines
+    list_n_rows = [df_maf.shape[0] for df_maf in ddf_maf.values()]
+    if len(set(list_n_rows)) > 1:
+        print("SHAPE error: not all MAF have the same number of rows")
 
     #### choose column per source
-    choice_columns = {
-        "Hugo_Symbol"                 : "vcf2maf",
-        "Entrez_Gene_Id"              : "vcf2maf",
-        "NCBI_Build"                  : "vcf2maf",
-        "Chromosome"                  : "vcf2maf",
-        "Start_Position"              : "vcf2maf",
-        "End_Position"                : "vcf2maf",
-        "Variant_Quality"             : "manual",
-        "Filter"                      : "manual",
-        "Variant_Classification"      : "vcf2maf",
-        "Variant_Type"                : "vcf2maf",
-        "Reference_Allele"            : "vcf2maf",
-        "Tumor_Seq_Allele1"           : "vcf2maf",
-        "Tumor_Seq_Allele2"           : "vcf2maf",
-        "dbSNP_RS"                    : "vcf2maf",
-        "Match_Norm_Seq_Allele1"      : "vcf2maf",
-        "Match_Norm_Seq_Allele2"      : "vcf2maf",
-        "Tumor_Sample_UUID"           : "manual",
-        "Matched_Norm_Sample_UUID"    : "manual",
-        "HGVSc"                       : "vcf2maf",
-        "HGVSp"                       : "vcf2maf",
-        "HGVSp_Short"                 : "vcf2maf",
-        "Transcript_ID"               : "vcf2maf",
-        "all_effects"                 : "vcf2maf",
-        "Location"                    : "alone",
-        "Gene"                        : "alone",
-        "Feature"                     : "alone",
-        "Feature_type"                : "alone",
-        "CANONICAL"                   : "alone",
-        "cDNA_position"               : "alone",
-        "CDS_position"                : "alone",
-        "Protein_position"            : "alone",
-        "Amino_acids"                 : "alone",
-        "Codons"                      : "alone",
-        "Existing_variation"          : "alone",
-        "Consequence"                 : "alone",
-        "IMPACT"                      : "alone",
-        "SIFT"                        : "alone",
-        "PolyPhen"                    : "alone",
-        "CLIN_SIG"                    : "alone",
-        "STRAND"                      : "alone",
-        "SYMBOL_SOURCE"               : "alone",
-        "HGNC_ID"                     : "alone",
-        "BIOTYPE"                     : "alone",
-        "CCDS"                        : "alone",
-        "ENSP"                        : "alone",
-        "SWISSPROT"                   : "alone",
-        "TREMBL"                      : "alone",
-        "UNIPARC"                     : "alone",
-        "EXON"                        : "alone",
-        "INTRON"                      : "alone",
-        "AF"                          : "alone",  #### AF from 1000 Genomes Phase 3
-        "AA_AF"                       : "alone",  #### NHLBI-ESP populations
-        "EA_AF"                       : "alone",  #### NHLBI-ESP populations
-        "gnomAD_AF"                   : "alone",  #### gnomAD exome populations
-        "MAX_AF"                      : "alone",  #### highest AF from any of 1000 genomes, ESP or gnomAD
-        "MAX_AF_POPS"                 : "alone",  #### highest AF from any of 1000 genomes, ESP or gnomAD
-    }
-
+    #### take all columns from VCF2MAF except for some that are from the manual extraction
+    #### for instance: reads number are sometimes not extracted by VCF2MAF 
     maf_columns = []
-    cols_reads = [x for x in ddf_vcf["manual"].columns if x.startswith(("n_", "t_"))]
 
-    #### add column from dict
-    for column,source in choice_columns.items():
-        if column not in ddf_vcf[source].columns:
-            print("WARNING: %s is not in %s" % (column, source), flush=True)
-        else:
-            maf_columns.append(ddf_vcf[source][column])
+    cols_manual = [x for x in ddf_maf["manual"].columns if x.startswith(("n_", "t_"))] + [
+        "Variant_Quality",
+        "Filter_VCF",
+        "Tumor_Sample_UUID",
+        "Matched_Norm_Sample_UUID",
+    ]
 
-    #### add read columns from manual extraction of reads
-    for column in cols_reads:
-        if column not in ddf_vcf["manual"].columns:
-            print("WARNING: %s is not in %s" % (column, source), flush=True)
+    for column in cols_manual:
+        if column not in ddf_maf["manual"].columns:
+            #### UUID is for instance only available for TCGA projects
+            print("WARNING: %s is not in manual" % column, flush=True)
         else:
-            maf_columns.append(ddf_vcf["manual"][column])
+            maf_columns.append(ddf_maf["manual"][column])
+
+    if vcf2maf_config.run and vep_config.custom_run:
+        #### add flags column source
+
+        #### vcf2maf
+        ddf_maf["vcf2maf"].columns = ["%s_VCF2MAF" % x for x in ddf_maf["vcf2maf"].columns]
+        for column in ddf_maf["vcf2maf"].columns:
+            maf_columns.append(ddf_maf["vcf2maf"][column])
+
+        #### vep
+        ddf_maf["alone"].columns = ["%s_VEP" % x for x in ddf_maf["alone"].columns]
+        for column in ddf_maf["alone"].columns:
+            maf_columns.append(ddf_maf["alone"][column])
+
+    elif vcf2maf_config.run:
+        #### vcf2maf
+        for column in ddf_maf["vcf2maf"].columns:
+            maf_columns.append(ddf_maf["vcf2maf"][column])
+
+    elif vep_config.custom_run:
+        #### vep
+        for column in ddf_maf["alone"].columns:
+            maf_columns.append(ddf_maf["alone"][column])
 
     #### add identifier columns if any
     if dt_identifiers is not None:
         for column in dt_identifiers.keys():
-            if column not in ddf_vcf["manual"].columns:
-                print("WARNING: %s is not in %s" % (column, source), flush=True)
+            if column not in ddf_maf["manual"].columns:
+                print("WARNING: %s is not in manual" % column, flush=True)
             else:
-                maf_columns.append(ddf_vcf["manual"][column])
-
+                maf_columns.append(ddf_maf["manual"][column])
 
     #### # 3. SAVE
     #### ######################################################################################################

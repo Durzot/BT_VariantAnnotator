@@ -1,4 +1,4 @@
-Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter	Hugo_Symbol	Variant_Classification	Variant_Type	Transcript_ID	n_GT	n_SS	n_FA	n_DP	n_AD	t_GT	t_SS	t_FA	t_DP	t_AD
+Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter_VCF	Hugo_Symbol	Variant_Classification	Variant_Type	Transcript_ID	n_GT	n_SS	n_FA	n_DP	n_AD	t_GT	t_SS	t_FA	t_DP	t_AD
 1	44476442		C	T	43	PASS	SLC6A9	5'UTR	SNP	ENST00000372307.3	0/0	2	0.000	69	69,0	0/1	2	0.276	58	42,16
 1	244583577		G	T	6	PASS	ADSS	Missense_Mutation	SNP	ENST00000366535.3	0/0	2	0.000	77	77,0	0/1	2	0.083	36	33,3
 2	25678299		C	T	24	PASS	DTNB	Missense_Mutation	SNP	ENST00000406818.3	0/0	2	0.000	33	33,0	0/1	2	0.471	17	9,8

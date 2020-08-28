@@ -15,10 +15,11 @@ import os
 from ..vcf2maf import run_vcf2maf_annotator
 
 def test_vcf2maf():
-    vcf2maf    = "~/Documents/biotools/informatics/VCF/mskcc-vcf2maf-5453f80/vcf2maf.pl"
-    vep_folder = "~/Documents/biotools/informatics/VCF/ensembl-vep"
-    vep_data   = "~/.vep"
-    fasta      = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
+    vcf2maf_path = "~/Documents/biotools/informatics/VCF/mskcc-vcf2maf-5453f80/vcf2maf.pl"
+    vep_folder   = "~/Documents/biotools/informatics/VCF/ensembl-vep"
+    vep_data     = "~/.vep"
+    vep_n_fork   = 4
+    fasta        = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
 
     #### # 1. TCGA GA
     #### # ########################################################################################################
@@ -35,15 +36,16 @@ def test_vcf2maf():
     tumor_id  = "TCGA-A1-A0SD-01A-11D-A10Y-09"
 
     run_vcf2maf_annotator(
-        vcf2maf    = vcf2maf,
-        vep_folder = vep_folder,
-        vep_data   = vep_data,
-        vcf_path   = os.path.join(vcf_folder, vcf_file),
-        out_path   = os.path.join(out_folder, out_file),
-        tmp_folder = tmp_folder,
-        tumor_id   = tumor_id,
-        normal_id  = normal_id,
-        fasta      = fasta
+        vcf2maf_path = vcf2maf_path,
+        vep_folder   = vep_folder,
+        vep_data     = vep_data,
+        vep_n_fork   = vep_n_fork,
+        vcf_path     = os.path.join(vcf_folder, vcf_file),
+        out_path     = os.path.join(out_folder, out_file),
+        tmp_folder   = tmp_folder,
+        tumor_id     = tumor_id,
+        normal_id    = normal_id,
+        fasta        = fasta
     )
 
     #### SNP TCGA_GA
@@ -53,15 +55,16 @@ def test_vcf2maf():
     tumor_id  = "TCGA-A1-A0SD-01A-11D-A10Y-09"
 
     run_vcf2maf_annotator(
-        vcf2maf    = vcf2maf,
-        vep_folder = vep_folder,
-        vep_data   = vep_data,
-        vcf_path   = os.path.join(vcf_folder, vcf_file),
-        out_path   = os.path.join(out_folder, out_file),
-        tmp_folder = tmp_folder,
-        tumor_id   = tumor_id,
-        normal_id  = normal_id,
-        fasta      = fasta
+        vcf2maf_path = vcf2maf_path,
+        vep_folder   = vep_folder,
+        vep_data     = vep_data,
+        vep_n_fork   = vep_n_fork,
+        vcf_path     = os.path.join(vcf_folder, vcf_file),
+        out_path     = os.path.join(out_folder, out_file),
+        tmp_folder   = tmp_folder,
+        tumor_id     = tumor_id,
+        normal_id    = normal_id,
+        fasta        = fasta
     )
 
     #### # 2. TCGA HS
@@ -79,15 +82,16 @@ def test_vcf2maf():
     tumor_id  = "TCGA-A1-A0SD-01A-11D-A10Y-09"
 
     run_vcf2maf_annotator(
-        vcf2maf    = vcf2maf,
-        vep_folder = vep_folder,
-        vep_data   = vep_data,
-        vcf_path   = os.path.join(vcf_folder, vcf_file),
-        out_path   = os.path.join(out_folder, out_file),
-        tmp_folder = tmp_folder,
-        tumor_id   = tumor_id,
-        normal_id  = normal_id,
-        fasta      = fasta
+        vcf2maf_path = vcf2maf_path,
+        vep_folder   = vep_folder,
+        vep_data     = vep_data,
+        vep_n_fork   = vep_n_fork,
+        vcf_path     = os.path.join(vcf_folder, vcf_file),
+        out_path     = os.path.join(out_folder, out_file),
+        tmp_folder   = tmp_folder,
+        tumor_id     = tumor_id,
+        normal_id    = normal_id,
+        fasta        = fasta
     )
 
     #### SNP TCGA_HS
@@ -97,13 +101,14 @@ def test_vcf2maf():
     tumor_id  = "TCGA-A1-A0SD-01A-11D-A10Y-09"
 
     run_vcf2maf_annotator(
-        vcf2maf    = vcf2maf,
-        vep_folder = vep_folder,
-        vep_data   = vep_data,
-        vcf_path   = os.path.join(vcf_folder, vcf_file),
-        out_path   = os.path.join(out_folder, out_file),
-        tmp_folder = tmp_folder,
-        tumor_id   = tumor_id,
-        normal_id  = normal_id,
-        fasta      = fasta
+        vcf2maf_path = vcf2maf_path,
+        vep_folder   = vep_folder,
+        vep_data     = vep_data,
+        vep_n_fork   = vep_n_fork,
+        vcf_path     = os.path.join(vcf_folder, vcf_file),
+        out_path     = os.path.join(out_folder, out_file),
+        tmp_folder   = tmp_folder,
+        tumor_id     = tumor_id,
+        normal_id    = normal_id,
+        fasta        = fasta
     )

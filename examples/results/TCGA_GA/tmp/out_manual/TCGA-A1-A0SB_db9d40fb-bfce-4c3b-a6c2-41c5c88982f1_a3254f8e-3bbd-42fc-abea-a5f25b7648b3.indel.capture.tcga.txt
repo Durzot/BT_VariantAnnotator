@@ -1,4 +1,4 @@
-Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter	Hugo_Symbol	Variant_Classification	Variant_Type	Transcript_ID	n_GT	n_SS	n_FA	n_DP	n_AD	t_GT	t_SS	t_FA	t_DP	t_AD
+Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter_VCF	Hugo_Symbol	Variant_Classification	Variant_Type	Transcript_ID	n_GT	n_SS	n_FA	n_DP	n_AD	t_GT	t_SS	t_FA	t_DP	t_AD
 1	16386305	rs143272992	G	GC	50	PASS	FAM131C	Intron	INS	ENST00000375662.4	0/0	2	0.000	11	11,0	0/1	2	0.333	6	4,2
 3	147121629		ATC	A	50	PASS	ZIC4	Intron	DEL	ENST00000491672.1	0/0	2	0.000	6	6,0	0/1	2	0.333	6	4,2
 3	184043925	rs112208190	AAC	A	50	PASS	EIF4G1	Intron	DEL	ENST00000392537.2	0/0	2	0.000	7	7,0	0/1	2	0.667	6	2,4

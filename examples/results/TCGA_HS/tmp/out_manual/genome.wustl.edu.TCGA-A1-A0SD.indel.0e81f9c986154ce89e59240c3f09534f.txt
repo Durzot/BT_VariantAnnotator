@@ -1,4 +1,4 @@
-Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter	n_GT	n_SS	n_TIR	n_TAR	n_DP	n_DP4	n_AD	n_depth	n_ref_count	n_alt_count	t_GT	t_SS	t_TIR	t_TAR	t_DP	t_DP4	t_AD	t_depth	t_ref_count	t_alt_count
+Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter_VCF	n_GT	n_SS	n_TIR	n_TAR	n_DP	n_DP4	n_AD	n_depth	n_ref_count	n_alt_count	t_GT	t_SS	t_TIR	t_TAR	t_DP	t_DP4	t_AD	t_depth	t_ref_count	t_alt_count
 1	24486218		T	TTTG			0/0				24			24.0	24.0	0.0	0/1	2			22	0,22,0,6		22.0	22.0	6.0
 1	27107272		CGT	C			0/0		0,0	21,21	26		0	26.0	21.0	0.0	0/1	2	3,3	14,14	18	4,14,2,1	4	18.0	14.0	3.0
 1	117122285		G	GTCC			0/0				8			8.0	8.0	0.0	0/1	2			16	4,12,1,6		16.0	16.0	7.0

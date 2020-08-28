@@ -13,19 +13,20 @@ Python wrapper around vcf2maf perl script.
 
 import os
 
-def run_vcf2maf_annotator(vcf2maf: str, vep_folder: str, vep_data: str, vcf_path: str, out_path: str, tmp_folder: str,
-tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
+def run_vcf2maf_annotator(vcf2maf_path: str, vep_folder: str, vep_data: str, vep_n_fork: int, vcf_path: str, out_path: str, tmp_folder: str, tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
     """
     Run vcf2maf reannotator. Details may found at https://github.com/mskcc/vcf2maf.
 
     Parameters
     ----------
-    vcf2maf: str
+    vcf2maf_path: str
         path to the vcf2maf perl script
     vep_folder: str
         path to the folder where the vep command is
     vep_data: str
         path to the .vep data where the reference genome is located
+    vep_data: int
+        number of forks to be used by VEP.
     vcf_path: str
         path to the vcf file
     out_path: str
@@ -69,10 +70,11 @@ tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
             --vep-path %s \
             --vep-data %s \
             --buffer-size 5000 \
-            --vep-forks 4 \
+            --vep-forks %d \
             --ncbi-build GRCh37 \
             --ref-fasta %s \
-            --filter-vcf 0' % (vcf2maf, vcf_path, out_path, tmp_folder, tumor_id, normal_id, vep_folder, vep_data, fasta)
+            --filter-vcf 0' % \
+            (vcf2maf_path, vcf_path, out_path, tmp_folder, tumor_id, normal_id, vep_folder, vep_data, vep_n_fork, fasta)
         )
     else:
         print("output file %s already exists and overwrite is set to False" % out_path)

@@ -13,12 +13,23 @@ Test functions from vep module.
 
 import os
 from ..main import run_annotator
+from ..main import VepConfig
+from ..main import Vcf2mafConfig
 
 def test_main():
-    vcf2maf    = "~/Documents/biotools/informatics/VCF/mskcc-vcf2maf-5453f80/vcf2maf.pl"
-    vep_folder = "~/Documents/biotools/informatics/VCF/ensembl-vep"
-    vep_data   = "~/.vep"
-    fasta      = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
+    vep_config = VepConfig(
+        folder           = "~/Documents/biotools/informatics/VCF/ensembl-vep",
+        data             = "~/.vep",
+        n_fork           = 4,
+        fasta            = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa",
+        custom_run       = True,
+        custom_overwrite = True
+    )
+    vcf2maf_config = Vcf2mafConfig(
+        path      = "~/Documents/biotools/informatics/VCF/vcf2maf/vcf2maf.pl",
+        run       = True,
+        overwrite = True
+    )
 
     #### # 1. TCGA GA
     #### # ########################################################################################################
@@ -64,12 +75,10 @@ def test_main():
         tumor_id       = tumor_id,
         infos_n_reads  = infos_n_reads,
         infos_other    = infos_other,
-        vcf2maf        = vcf2maf,
-        vep_folder     = vep_folder,
-        vep_data       = vep_data,
-        fasta          = fasta,
         dt_folders     = dt_folders,
-        dt_identifiers = dt_identifiers
+        dt_identifiers = dt_identifiers,
+        vcf2maf_config = vcf2maf_config,
+        vep_config     = vep_config
     )
 
     #### SNP TCGA_GA

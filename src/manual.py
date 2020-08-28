@@ -272,7 +272,7 @@ def process_assemble(df_vcf: DataFrame, df_vcf_info: DataFrame, df_vcf_reads: Da
         "REF"    : "Tumor_Seq_Allele1",
         "ALT"    : "Tumor_Seq_Allele2",
         "QUAL"   : "Variant_Quality",
-        "FILTER" : "Filter",
+        "FILTER" : "Filter_VCF",
         "VC"     : "Variant_Classification",
         "VT"     : "Variant_Type",
         "TID"    : "Transcript_ID",

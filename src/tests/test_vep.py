@@ -17,6 +17,7 @@ from ..vep import run_vep_annotator
 def test_vep():
     vep_folder = "~/Documents/biotools/informatics/VCF/ensembl-vep"
     vep_data   = "~/.vep"
+    vep_n_fork = 4
     fasta      = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
 
     #### # 1. TCGA GA
@@ -35,7 +36,8 @@ def test_vep():
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
-        fasta      = fasta
+        fasta      = fasta,
+        vep_n_fork = vep_n_fork
     )
 
     #### SNP TCGA_GA
@@ -47,7 +49,8 @@ def test_vep():
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
-        fasta      = fasta
+        fasta      = fasta,
+        vep_n_fork = vep_n_fork
     )
 
     #### # 2. TCGA HS
@@ -66,7 +69,8 @@ def test_vep():
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
-        fasta      = fasta
+        fasta      = fasta,
+        vep_n_fork = vep_n_fork
     )
 
     #### SNP TCGA_HS
@@ -78,5 +82,6 @@ def test_vep():
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
-        fasta      = fasta
+        fasta      = fasta,
+        vep_n_fork = vep_n_fork
     )
