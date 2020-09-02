@@ -33,12 +33,11 @@ class VepConfig:
 
     Parameters
     --------
-    folder: str
-        path to the folder where the vep command is
     data: str
-        path to the .vep data where the reference genome is located
+        path to the .vep data where the reference genome is located. Default: $HOME/.vep
     fasta: str
-        relative path to fasta file from folder
+        relative path to fasta file from folder. Default
+        "$HOME/.vep/homo_sapiens/101_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
     n_fork: int, optional.
         number of forks to be used when running VEP. Use at least 2.
     custom_run: bool, optional
@@ -49,9 +48,8 @@ class VepConfig:
     custom_overwrite: bool, optional.
         set to True to overwrite any existing previous custom run of VEP.
     """
-    folder: str
-    data: str
-    fasta: str
+    data: str=os.path.expanduser("~/.vep")
+    fasta: str=os.path.expanduser("~/.vep/homo_sapiens/101_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa")
     n_fork: int=4
     custom_run: bool=False
     custom_opt: Union[str, list]=None
@@ -64,14 +62,11 @@ class Vcf2mafConfig:
 
     Parameters
     --------
-    path: str
-        path to the vcf2maf perl script
     run: bool, optional
         set to False to not use vcf2maf.
     overwrite: bool, optional.
         set to True to overwrite any existing previous run of vcf2maf.
     """
-    path: str
     run: bool=True
     overwrite: bool=False
 
@@ -128,8 +123,6 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
     if vcf2maf_config.run:
         vcf2maf_out_path = os.path.join(dt_folders["vcf2maf_out_folder"], out_file)
         run_vcf2maf_annotator(
-            vcf2maf_path = vcf2maf_config.path,
-            vep_folder   = vep_config.folder,
             vep_data     = vep_config.data,
             vep_n_fork   = vep_config.n_fork,
             vcf_path     = vcf_path,
@@ -144,7 +137,6 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
     if vep_config.custom_run:
         vep_out_path     = os.path.join(dt_folders["vep_out_folder"], out_file)
         run_vep_annotator(
-            vep_folder = vep_config.folder,
             vep_data   = vep_config.data,
             vep_n_fork = vep_config.n_fork,
             vcf_path   = vcf_path,

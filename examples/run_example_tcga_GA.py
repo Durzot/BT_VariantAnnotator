@@ -15,8 +15,6 @@ Example
 python examples/run_example_tcga_GA.py \
     --i_split 1 \
     --n_split 1 \
-    --vcf2maf_path ~/Documents/biotools/informatics/VCF/vcf2maf/vcf2maf.pl \
-    --vep_folder ~/Documents/biotools/informatics/VCF/ensembl-vep \
     --vep_data ~/.vep \
     --vep_n_fork 4 \
     --fasta ~/.vep/homo_sapiens/101_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa
@@ -36,14 +34,15 @@ from   src.main import VepConfig
 #### # SCRIPT PARAMETERS 
 #### #####################################################################################################
 
+default_vep_data = os.path.expanduser("~/.vep")
+default_fasta = os.path.expanduser("~/.vep/homo_sapiens/101_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa")
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--i_split'         , type=int , default=1  , help='the split processed')
-parser.add_argument('--n_split'         , type=int , default=1  , help='total number of splits')
-parser.add_argument('--vcf2maf_path'    , type=str , default="" , help='path to the vcf2maf perl script')
-parser.add_argument('--vep_folder'      , type=str , default="" , help='path to the folder of the vep command')
-parser.add_argument('--vep_data'        , type=str , default="" , help='path to the .vep data folder')
-parser.add_argument('--vep_n_fork'      , type=int , default=4  , help='number of forks to be used by VEP')
-parser.add_argument('--fasta'           , type=str , default="" , help='path to reference genome FASTA file')
+parser.add_argument('--i_split'    , type=int , default=1                , help='the split processed')
+parser.add_argument('--n_split'    , type=int , default=1                , help='total number of splits')
+parser.add_argument('--vep_data'   , type=str , default=default_vep_data , help='path to the .vep data folder')
+parser.add_argument('--vep_n_fork' , type=int , default=4                , help='number of forks to be used by VEP')
+parser.add_argument('--fasta'      , type=str , default=default_fasta    , help='path to reference genome FASTA file')
 args = parser.parse_args()
 
 print("Parameters", flush=True)
@@ -101,20 +100,18 @@ if __name__ == "__main__":
 
     #### configure vep (for inside vcf2maf and for custom if set to use custom vep commands)
     vep_config = VepConfig(
-        folder           = args.vep_folder,
         data             = args.vep_data,
         n_fork           = args.vep_n_fork,
         fasta            = args.fasta,
         custom_run       = False,
         # custom_opt       = "~/.vep/custom/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN",
-        custom_overwrite = False,
+        custom_overwrite = True,
     )
 
     #### configure vcf2maf
     vcf2maf_config = Vcf2mafConfig(
-        path      = args.vcf2maf_path,
         run       = True,
-        overwrite = False
+        overwrite = True
     )
 
     #### # 4. ANNOTATE

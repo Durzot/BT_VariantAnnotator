@@ -19,6 +19,30 @@ import re
 
 DataFrame = pd.core.frame.DataFrame
 
+#### modify if the repository was cloned under a different name
+REPO_FOLDER = "BT_variant_annotator"
+
+def set_wd_to_repo():
+    current_wd = os.getcwd()
+    if REPO_FOLDER not in os.getcwd():
+        raise ValueError("Please set the working directory to a location in the repository %s" % REPO_FOLDER)
+    else:
+        while not os.getcwd().endswith(REPO_FOLDER):
+            os.chdir("..")
+    return current_wd
+
+def get_path_to_repo() -> str:
+    current_wd = os.getcwd()
+    if REPO_FOLDER not in os.getcwd():
+        raise ValueError("Please set the working directory to a location in the repository %s" % REPO_FOLDER)
+    else:
+        while not os.getcwd().endswith(REPO_FOLDER):
+            os.chdir("..")
+    repo_path = os.getcwd()
+    os.chdir(current_wd)
+    return repo_path
+
+
 def load_vcf(filepath: str, no_header: bool=False) -> DataFrame:
     """
     Load VCF file from the specified filepath into a pandas DataFrame.

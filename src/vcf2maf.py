@@ -12,20 +12,17 @@ Python wrapper around vcf2maf perl script.
 """
 
 import os
+from  .util import get_path_to_repo
 
-def run_vcf2maf_annotator(vcf2maf_path: str, vep_folder: str, vep_data: str, vep_n_fork: int, vcf_path: str, out_path: str, tmp_folder: str, tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
+def run_vcf2maf_annotator(vep_data: str, vep_n_fork: int, vcf_path: str, out_path: str, tmp_folder: str, tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
     """
     Run vcf2maf reannotator. Details may found at https://github.com/mskcc/vcf2maf.
 
     Parameters
     ----------
-    vcf2maf_path: str
-        path to the vcf2maf perl script
-    vep_folder: str
-        path to the folder where the vep command is
     vep_data: str
         path to the .vep data where the reference genome is located
-    vep_data: int
+    vep_n_fork: int
         number of forks to be used by VEP.
     vcf_path: str
         path to the vcf file
@@ -42,6 +39,10 @@ def run_vcf2maf_annotator(vcf2maf_path: str, vep_folder: str, vep_data: str, vep
     overwrite: bool
         if the output file already exists (from previous run), should it be overwritten?
     """
+    repo_path    = get_path_to_repo()
+    vcf2maf_path = os.path.join(repo_path, "tools/vcf2maf/vcf2maf.pl")
+    vep_path     = os.path.join(repo_path, "tools/ensembl-vep")
+
     need_run = True
     vcf_file = out_path.split("/")[-1]
     tmp_file = vcf_file.replace(".txt", ".vep.vcf")
@@ -74,7 +75,7 @@ def run_vcf2maf_annotator(vcf2maf_path: str, vep_folder: str, vep_data: str, vep
             --ncbi-build GRCh37 \
             --ref-fasta %s \
             --filter-vcf 0' % \
-            (vcf2maf_path, vcf_path, out_path, tmp_folder, tumor_id, normal_id, vep_folder, vep_data, vep_n_fork, fasta)
+            (vcf2maf_path, vcf_path, out_path, tmp_folder, tumor_id, normal_id, vep_path, vep_data, vep_n_fork, fasta)
         )
     else:
         print("output file %s already exists and overwrite is set to False" % out_path)

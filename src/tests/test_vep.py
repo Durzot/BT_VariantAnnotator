@@ -15,7 +15,6 @@ import os
 from ..vep import run_vep_annotator
 
 def test_vep():
-    vep_folder = "~/Documents/biotools/informatics/VCF/ensembl-vep"
     vep_data   = "~/.vep"
     vep_n_fork = 4
     fasta      = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
@@ -32,7 +31,6 @@ def test_vep():
     out_file = vcf_file.replace(".vcf", ".txt")
 
     run_vep_annotator(
-        vep_folder = vep_folder,
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
@@ -45,7 +43,6 @@ def test_vep():
     out_file = vcf_file.replace(".vcf", ".txt")
 
     run_vep_annotator(
-        vep_folder = vep_folder,
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
@@ -65,7 +62,6 @@ def test_vep():
     out_file = vcf_file.replace(".vcf", ".txt")
 
     run_vep_annotator(
-        vep_folder = vep_folder,
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),
@@ -78,7 +74,6 @@ def test_vep():
     out_file = vcf_file.replace(".vcf", ".txt")
 
     run_vep_annotator(
-        vep_folder = vep_folder,
         vep_data   = vep_data,
         vcf_path   = os.path.join(vcf_folder, vcf_file),
         out_path   = os.path.join(out_folder, out_file),

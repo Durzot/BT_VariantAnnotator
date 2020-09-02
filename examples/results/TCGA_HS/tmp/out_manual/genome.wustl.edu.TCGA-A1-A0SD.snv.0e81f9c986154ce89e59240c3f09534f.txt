@@ -1,4 +1,4 @@
-Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter	n_GT	n_SS	n_FA	n_DP	n_DP4	n_AD	n_depth	n_ref_count	n_alt_count	t_GT	t_SS	t_FA	t_DP	t_DP4	t_AD	t_depth	t_ref_count	t_alt_count
+Chromosome	Position	dbSNP_RS	Tumor_Seq_Allele1	Tumor_Seq_Allele2	Variant_Quality	Filter_VCF	n_GT	n_SS	n_FA	n_DP	n_DP4	n_AD	n_depth	n_ref_count	n_alt_count	t_GT	t_SS	t_FA	t_DP	t_DP4	t_AD	t_depth	t_ref_count	t_alt_count
 1	2520302		T	C			0/0		0	5			5.0	5.0	0.0	0/1	2	0.5556	9	2,2,3,2	4,5	9.0	4.0	5.0
 1	8421092		C	T			0/0	0	0	6	6,0,0,0		6.0	6.0	0.0	0/1	2	0.636	11	3,0,7,1	3,7	11.0	3.0	7.0
 1	16386416		G	A			0/0	0	0	8			8.0	8.0	0.0	0/1	2	0.6207	29	7,4,11,7	11,19	29.0	11.0	19.0

@@ -13,16 +13,15 @@ Python wrapper around VEP command.
 
 import os
 from   typing import Union
+from   .util  import get_path_to_repo
 
-def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False, vep_n_fork: int=4):
+def run_vep_annotator(vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False, vep_n_fork: int=4):
     """
     Run variant ensembl predictor alone with custom options. See options details at
     https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html#opt_af
 
     Parameters
     ---------
-    vep_folder: str
-        path to the folder where the vep command is
     vep_data: str
         path to the .vep data where the reference genome is located
     vcf_path: str
@@ -39,7 +38,9 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
     vep_n_fork: int, optional.
         number of forks to be used when running VEP.
     """
-    vep = os.path.join(vep_folder, "vep")
+
+    repo_path = get_path_to_repo()
+    vep_path  = os.path.join(repo_path, "tools/ensembl-vep/vep")
     need_run = True
 
     if os.path.exists(out_path) and not overwrite:
@@ -88,7 +89,7 @@ def run_vep_annotator(vep_folder: str, vep_data: str, vcf_path: str, out_path: s
             --output_file %s \
             --fasta %s \
             --cache \
-            --offline """ % (vep, vep_data, vep_n_fork, vcf_path, out_path, fasta)
+            --offline """ % (vep_path, vep_data, vep_n_fork, vcf_path, out_path, fasta)
 
         if vep_custom is not None:
             if type(vep_custom) == list:

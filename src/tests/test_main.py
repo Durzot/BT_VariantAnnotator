@@ -18,7 +18,6 @@ from ..main import Vcf2mafConfig
 
 def test_main():
     vep_config = VepConfig(
-        folder           = "~/Documents/biotools/informatics/VCF/ensembl-vep",
         data             = "~/.vep",
         n_fork           = 4,
         fasta            = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa",
@@ -26,7 +25,6 @@ def test_main():
         custom_overwrite = True
     )
     vcf2maf_config = Vcf2mafConfig(
-        path      = "~/Documents/biotools/informatics/VCF/vcf2maf/vcf2maf.pl",
         run       = True,
         overwrite = True
     )
