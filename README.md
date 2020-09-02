@@ -45,13 +45,19 @@ Run the VEP annotator on the VCF file from a specific set of options. The option
 
 ## 2. How to run the tool ?
 
-### 2.1 Install VEP
-
-Clone VEP from the [official github](https://github.com/Ensembl/ensembl-vep). Installation details are provided there. As specified, run
+Clone the github repository using
 
 ```
-git clone https://github.com/Ensembl/ensembl-vep
-cd ensembl-vep
+git clone --recurse-submodules https://github.com/Durzot/BT_variant_annotator
+```
+
+or, if you forgot the `--recurse-submodules` option, run `git submodule update --init` after the cloning.
+
+### 2.1 Install VEP
+
+Go to the ensembl-vep/ folder in tools/ and run
+
+```
 perl INSTALL.pl
 ```
 
@@ -99,7 +105,7 @@ You may replace `/usr/local/bin` with whatever path where you usually save binar
 
 ### 2.3 Example
 
-The main function for annotating a vcf is `run_annotator` in `main` module. Have a look at `run_example_tcga_GA.py` to have an example of how to run the tool and at the `run_annotator` documentation for more details about the options.
+The main function for annotating a vcf is `run_annotator` in `main` module. Have a look at `run_example_tcga_GA.py` or `run_example_tcga_HS` to have examples of how to run the tool and at the `run_annotator` documentation for more details about the options.
 
 ## 3. References
 
