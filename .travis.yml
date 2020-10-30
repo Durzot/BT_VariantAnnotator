@@ -1,7 +1,6 @@
 language: python
 os:
   - linux
-  - osx
 python:
   - "3.6"
   - "3.7"
@@ -17,3 +16,7 @@ script:
 
 after_script:
   - coveralls
+
+branches:
+  only:
+    - master

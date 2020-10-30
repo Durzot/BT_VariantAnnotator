@@ -27,7 +27,7 @@ import sys
 if "." not in sys.path:
     sys.path.append(".")
 
-from   src.main import run_annotator
+from vari import run_annotator
 from   src.main import Vcf2mafConfig
 from   src.main import VepConfig
 
