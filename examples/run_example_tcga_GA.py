@@ -139,8 +139,6 @@ if __name__ == "__main__":
             col_tumor = "PRIMARY"
         else:
             col_tumor = "METASTATIC"
-        normal_id     = dt_identifiers["Matched_Norm_Sample_Barcode"]
-        tumor_id      = dt_identifiers["Tumor_Sample_Barcode"]
         infos_n_reads = ["AD", "DP", "FA"]
         infos_other   = ["SS", "GT"]
 
@@ -149,8 +147,6 @@ if __name__ == "__main__":
             vcf_file          = vcf_file,
             col_normal        = col_normal,
             col_tumor         = col_tumor,
-            normal_id         = normal_id,
-            tumor_id          = tumor_id,
             infos_n_reads     = infos_n_reads,
             infos_other       = infos_other,
             dt_folders        = dt_folders,

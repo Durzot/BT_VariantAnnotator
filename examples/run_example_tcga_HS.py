@@ -136,8 +136,6 @@ if __name__ == "__main__":
         #### get parameter values
         col_normal = dt_identifiers["Matched_Norm_Sample_Barcode"]
         col_tumor  = dt_identifiers["Tumor_Sample_Barcode"]
-        normal_id  = dt_identifiers["Matched_Norm_Sample_Barcode"]
-        tumor_id   = dt_identifiers["Tumor_Sample_Barcode"]
 
         vcf_type = df_meta.loc[index_vcf_file, "vcf_type"]
 
@@ -153,8 +151,6 @@ if __name__ == "__main__":
             vcf_file          = vcf_file,
             col_normal        = col_normal,
             col_tumor         = col_tumor,
-            normal_id         = normal_id,
-            tumor_id          = tumor_id,
             infos_n_reads     = infos_n_reads,
             infos_other       = infos_other,
             dt_folders        = dt_folders,

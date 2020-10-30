@@ -70,9 +70,9 @@ class Vcf2mafConfig:
     run: bool=True
     overwrite: bool=False
 
-def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
-                      infos_n_reads: list, infos_other: list, dt_folders: dict, vcf2maf_config: Vcf2mafConfig,
-                      vep_config: VepConfig, dt_identifiers: dict=None) -> None:
+def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, infos_n_reads: list,
+                  infos_other: list, dt_folders: dict, vcf2maf_config: Vcf2mafConfig, vep_config: VepConfig,
+                  dt_identifiers: dict=None,  tumor_id: str=None, normal_id: str=None) -> None:
     """
     Run the manual, vcf2maf and/or vep annotations on one VCF file and assemble.
 
@@ -103,9 +103,19 @@ def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: st
         See VepConfig class.
     dt_identifiers: dict, optional
         dict with key, value pairs that will be added as single-value columns in the maf file
+    tumor_id: str, optional.
+        Tumor identifier if different from col_tumor (e.g if col_tumor = "PRIMARY").
+    normal_id: str, optional.
+        Normal identifier if different from col_normal (e.g if col_normal = "NORMAL").
     """
     vcf_path = os.path.join(vcf_folder, vcf_file)
     out_file = vcf_file.replace(".vcf", ".txt")
+
+    if tumor_id is None:
+        tumor_id = col_tumor
+
+    if normal_id is None:
+        normal_id = col_normal
 
     #### # 1. RUN EACH ANNOTATOR
     #### # ###################################################################################################
