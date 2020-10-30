@@ -20,7 +20,7 @@ import re
 DataFrame = pd.core.frame.DataFrame
 
 #### modify if the repository was cloned under a different name
-REPO_FOLDER = "BT_variant_annotator"
+REPO_FOLDER = "VariantAnnotator"
 
 def set_wd_to_repo():
     current_wd = os.getcwd()
