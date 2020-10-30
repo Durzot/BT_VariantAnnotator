@@ -12,7 +12,7 @@ Test functions in util.py module.
 """
 
 import os
-from ..util import load_vcf
+from .._util import load_vcf
 
 def test_load_vcf():
     folder = "./examples/data/TCGA_GA/"

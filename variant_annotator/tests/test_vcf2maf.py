@@ -12,12 +12,15 @@ Test functions from vcf2maf module.
 """
 
 import os
-from ..vcf2maf import run_vcf2maf_annotator
+from .._util import set_wd_to_repo
+from .._vcf2maf import run_vcf2maf_annotator
 
 def test_vcf2maf():
     vep_data     = "~/.vep"
     vep_n_fork   = 4
     fasta        = "~/.vep/homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa"
+
+    current_wd = set_wd_to_repo()
 
     #### # 1. TCGA GA
     #### # ########################################################################################################

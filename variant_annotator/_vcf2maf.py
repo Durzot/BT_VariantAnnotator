@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 2020
-
+@created: Aug 13 2020
+@modified: Oct 30 2020
 @author: Yoann Pradat
-
     CentraleSupelec
     MICS laboratory
     9 rue Juliot Curie, Gif-Sur-Yvette, 91190 France
@@ -12,12 +11,11 @@ Python wrapper around vcf2maf perl script.
 """
 
 import os
-from  .util import get_path_to_repo
+from  ._util import get_path_to_repo
 
 def run_vcf2maf_annotator(vep_data: str, vep_n_fork: int, vcf_path: str, out_path: str, tmp_folder: str, tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
     """
     Run vcf2maf reannotator. Details may found at https://github.com/mskcc/vcf2maf.
-
     Parameters
     ----------
     vep_data: str

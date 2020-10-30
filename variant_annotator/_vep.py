@@ -1,25 +1,22 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 2020
-
+@created: Aug 13 2020
+@modified: Oct 30 2020
 @author: Yoann Pradat
-
     CentraleSupelec
     MICS laboratory
     9 rue Juliot Curie, Gif-Sur-Yvette, 91190 France
-
 Python wrapper around VEP command.
 """
 
 import os
-from   typing import Union
-from   .util  import get_path_to_repo
+from typing import Union
+from ._util import get_path_to_repo
 
 def run_vep_annotator(vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False, vep_n_fork: int=4):
     """
     Run variant ensembl predictor alone with custom options. See options details at
     https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html#opt_af
-
     Parameters
     ---------
     vep_data: str

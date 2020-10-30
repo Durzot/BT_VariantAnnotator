@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Aug 13 2020
-
 @author: Yoann Pradat
-
     CentraleSupelec
     MICS laboratory
     9 rue Juliot Curie, Gif-Sur-Yvette, 91190 France
-
 Useful functions
 """
 
@@ -46,14 +43,12 @@ def get_path_to_repo() -> str:
 def load_vcf(filepath: str, no_header: bool=False) -> DataFrame:
     """
     Load VCF file from the specified filepath into a pandas DataFrame.
-
     Parameters
     ----------
     filepath:  str
         Path to the file.
     no_header:  bool
         If True, set column names to default names.
-
     Returns
     -------
     df: DataFrame
@@ -61,7 +56,7 @@ def load_vcf(filepath: str, no_header: bool=False) -> DataFrame:
     """
 
     if not os.path.exists(filepath):
-        raise ValueError("The file %s does not exist.")
+        raise ValueError("The file %s does not exist." % filepath)
     else:
         if no_header:
             df_vcf = pd.read_csv(

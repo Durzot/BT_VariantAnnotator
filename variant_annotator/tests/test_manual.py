@@ -12,9 +12,11 @@ Test functions from manual module.
 """
 
 import os
-from ..manual import run_manual_annotator
+from .._util import set_wd_to_repo
+from .._manual import run_manual_annotator
 
 def test_manual():
+    current_wd = set_wd_to_repo()
 
     #### # 1. TCGA GA
     #### # ########################################################################################################

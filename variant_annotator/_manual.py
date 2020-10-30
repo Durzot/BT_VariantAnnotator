@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 2020
-
+@created: Aug 13 2020
+@modified: Oct 30 220
 @author: Yoann Pradat
-
     CentraleSupelec
     MICS laboratory
     9 rue Juliot Curie, Gif-Sur-Yvette, 91190 France
@@ -16,7 +15,7 @@ import numpy  as np
 import pandas as pd
 import re
 
-from .util import load_vcf
+from ._util import load_vcf
 
 DataFrame = pd.core.frame.DataFrame
 
@@ -294,7 +293,6 @@ def process_assemble(df_vcf: DataFrame, df_vcf_info: DataFrame, df_vcf_reads: Da
 def run_manual_annotator(vcf_path: str, out_path:str,  col_normal: str, col_tumor: str, infos_n_reads: list, infos_other: list):
     """
     Manually parse VCF file and save at the path specified.
-
     Paramters
     ---------
     vcf_path: str

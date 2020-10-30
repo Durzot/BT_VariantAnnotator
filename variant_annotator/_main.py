@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 2020
-
+@created: Aug 13 2020
+@modified: Oct 30 2020
 @author: Yoann Pradat
 
     CentraleSupelec
@@ -15,9 +15,9 @@ import numpy  as np
 import pandas as pd
 from   typing import Union
 
-from   .manual  import run_manual_annotator
-from   .vcf2maf import run_vcf2maf_annotator
-from   .vep     import run_vep_annotator
+from   ._manual  import run_manual_annotator
+from   ._vcf2maf import run_vcf2maf_annotator
+from   ._vep     import run_vep_annotator
 
 DataFrame = pd.core.frame.DataFrame
 
@@ -71,8 +71,8 @@ class Vcf2mafConfig:
     overwrite: bool=False
 
 def run_annotator(vcf_folder: str, vcf_file: str, col_normal: str, col_tumor: str, tumor_id: str, normal_id: str,
-                  infos_n_reads: list, infos_other: list, dt_folders: dict, vcf2maf_config: Vcf2mafConfig,
-                  vep_config: VepConfig, dt_identifiers: dict=None) -> None:
+                      infos_n_reads: list, infos_other: list, dt_folders: dict, vcf2maf_config: Vcf2mafConfig,
+                      vep_config: VepConfig, dt_identifiers: dict=None) -> None:
     """
     Run the manual, vcf2maf and/or vep annotations on one VCF file and assemble.
 

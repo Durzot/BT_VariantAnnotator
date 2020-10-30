@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 2020
-
+@created: Aug 13 2020
+@modified: Oct 30 2020
 @author: Yoann Pradat
 
     CentraleSupelec
@@ -12,9 +12,10 @@ Test functions from vep module.
 """
 
 import os
-from ..main import run_annotator
-from ..main import VepConfig
-from ..main import Vcf2mafConfig
+from .._util import set_wd_to_repo
+from .._main import run_annotator
+from .._main import VepConfig
+from .._main import Vcf2mafConfig
 
 def test_main():
     vep_config = VepConfig(
@@ -28,6 +29,8 @@ def test_main():
         run       = True,
         overwrite = True
     )
+
+    current_wd = set_wd_to_repo()
 
     #### # 1. TCGA GA
     #### # ########################################################################################################
