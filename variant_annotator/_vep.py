@@ -11,7 +11,6 @@ Python wrapper around VEP command.
 
 import os
 from typing import Union
-from ._util import get_path_to_repo
 
 def run_vep_annotator(vep_data: str, vcf_path: str, out_path: str, fasta: str, vep_custom: Union[str,list]=None, overwrite: bool=False, vep_n_fork: int=4):
     """
@@ -36,8 +35,7 @@ def run_vep_annotator(vep_data: str, vcf_path: str, out_path: str, fasta: str, v
         number of forks to be used when running VEP.
     """
 
-    repo_path = get_path_to_repo()
-    vep_path  = os.path.join(repo_path, "tools/ensembl-vep/vep")
+    vep_path     = os.path.normpath(os.path.join(__file__, "../../tools/ensembl-vep/vep"))
     need_run = True
 
     if os.path.exists(out_path) and not overwrite:

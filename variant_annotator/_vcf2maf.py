@@ -11,7 +11,6 @@ Python wrapper around vcf2maf perl script.
 """
 
 import os
-from  ._util import get_path_to_repo
 
 def run_vcf2maf_annotator(vep_data: str, vep_n_fork: int, vcf_path: str, out_path: str, tmp_folder: str, tumor_id: str, normal_id: str, fasta: str, overwrite: bool=False):
     """
@@ -37,9 +36,8 @@ def run_vcf2maf_annotator(vep_data: str, vep_n_fork: int, vcf_path: str, out_pat
     overwrite: bool
         if the output file already exists (from previous run), should it be overwritten?
     """
-    repo_path    = get_path_to_repo()
-    vcf2maf_path = os.path.join(repo_path, "tools/vcf2maf/vcf2maf.pl")
-    vep_path     = os.path.join(repo_path, "tools/ensembl-vep")
+    vcf2maf_path = os.path.normpath(os.path.join(__file__, "../../tools/vcf2maf/vcf2maf.pl"))
+    vep_path     = os.path.normpath(os.path.join(__file__, "../../tools/ensembl-vep"))
 
     need_run = True
     vcf_file = out_path.split("/")[-1]

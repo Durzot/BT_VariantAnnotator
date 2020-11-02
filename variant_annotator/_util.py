@@ -28,17 +28,6 @@ def set_wd_to_repo():
             os.chdir("..")
     return current_wd
 
-def get_path_to_repo() -> str:
-    current_wd = os.getcwd()
-    if REPO_FOLDER not in os.getcwd():
-        raise ValueError("Please set the working directory to a location in the repository %s" % REPO_FOLDER)
-    else:
-        while not os.getcwd().endswith(REPO_FOLDER):
-            os.chdir("..")
-    repo_path = os.getcwd()
-    os.chdir(current_wd)
-    return repo_path
-
 
 def load_vcf(filepath: str, no_header: bool=False) -> DataFrame:
     """
@@ -79,6 +68,7 @@ def load_vcf(filepath: str, no_header: bool=False) -> DataFrame:
             )
 
     return df_vcf
+
 
 def write_vcf(filepath_orig: str, filepath_dest: str, df_vcf: DataFrame) -> None:
     headersymbol = "##"
