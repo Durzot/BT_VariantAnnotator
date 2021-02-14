@@ -31,6 +31,7 @@ build:
 
 install:
 	@echo "---------------Install variant_annotator-----------------"
+	git submodule update --init
 	$(PIP) install --upgrade pip setuptools wheel
 	$(PIP) install -r reqs/requirements.txt
 	$(PIP) install .
