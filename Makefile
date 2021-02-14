@@ -24,6 +24,9 @@ test:
 	$(PIP) install --upgrade pytest pytest-cov
 	$(PYTEST) --cov-config=.coveragerc --cov-report term-missing --cov . . 
 
+codecov:
+	bash <(curl -s https://codecov.io/bash) -t c8bcf054-f0cb-4bf1-8866-1b862905ef89
+
 build:
 	@echo "---------------Build variant_annotator-----------------"
 	$(PYTHON) -m pip install --user --upgrade setuptools wheel

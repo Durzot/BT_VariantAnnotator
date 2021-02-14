@@ -1,5 +1,8 @@
 # Biotool for annotating variants from a VCF file.
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![codecov](https://codecov.io/gh/ypradat/VariantAnnotator/branch/master/graph/badge.svg?token=H821S3WZHS)](https://codecov.io/gh/ypradat/VariantAnnotator)
+
 The tool is divided in 3 steps
 - Manual parsing of the VCF
 - Run [vcf2maf](https://github.com/mskcc/vcf2maf) to extract standard information 
@@ -7,7 +10,7 @@ The tool is divided in 3 steps
 
 ## 1. What is the tool doing ?
 
-VEP annotates variants with information from multiple external databases and can be configure for to answer a lot of
+VEP annotates variants with information from multiple external databases and can be configured to answer a lot of
 specific needs. For more details, see [VEP's options
 page](https://www.ensembl.org/info/docs/tools/vep/script/vep_options.html). VEP does not however extract information
 like number of reads or somatic status from the VCF file. vcf2maf is supposed to perform these tasks but failed to do on
