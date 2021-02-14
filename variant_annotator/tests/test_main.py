@@ -37,6 +37,7 @@ def test_main():
 
     vcf_folder = "./examples/data/TCGA_GA/"
     out_folder = "./examples/results/TCGA_GA/"
+    os.makedirs(out_folder, exist_ok=True)
 
     #### paths to results folders
     dt_folders = {
