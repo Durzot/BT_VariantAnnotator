@@ -1,5 +1,5 @@
 """
-The :mod:`variant_annotator` module defines functions for annotating variants using a combination of manual, vep and
+The :mod:`varannot` module defines functions for annotating variants using a combination of manual, vep and
 vcf2maf annotations.
 """
 
